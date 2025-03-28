@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Binary, Calendar, EthernetPort, Home, Inbox, Search, Settings, ShieldUser, Wifi, Workflow } from "lucide-vue-next"
+import { Binary, Calendar, ChevronDown, EthernetPort, Home, Inbox, Search, Settings, ShieldUser, Wifi, Workflow } from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
