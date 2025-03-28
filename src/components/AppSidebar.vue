@@ -83,12 +83,15 @@ const ip_items = [
             <Collapsible defaultOpen class="group/collapsible">
               <SidebarMenuItem v-for="item in items" :key="item.title" class="m-1">
                 <CollapsibleTrigger v-if="item.title == 'IP'" asChild>
+                <div class="flex">
                     <SidebarMenuButton asChild>
                         <a :href="item.url">
                         <component :is="item.icon" />
                         <span>{{item.title}}</span>
                         </a>
+                        <ChevronDown class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" asChild/>
                     </SidebarMenuButton>
+                </div>
                 </CollapsibleTrigger>
                 <CollapsibleContent v-if="item.title == 'IP'">
                     <SidebarMenuSub>
