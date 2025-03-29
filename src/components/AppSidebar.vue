@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { Binary, Calendar, ChevronDown, EthernetPort, Home, Inbox, Search, Settings, ShieldUser, Wifi, Workflow } from "lucide-vue-next"
 import {
   Sidebar,
@@ -19,32 +19,33 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { RouterLink } from "vue-router";
 
 // Menu items.
 const items = [
   {
     title: "Interfaces",
-    url: "#",
+    url: "interfaces",
     icon: EthernetPort,
   },
   {
     title: "Bridge",
-    url: "#",
+    url: "interfaces",
     icon: Workflow,
   },
   {
     title: "Wireless",
-    url: "#",
+    url: "interfaces",
     icon: Wifi,
   },
   {
     title: "IP",
-    url: "#",
+    url: "interfaces",
     icon: Binary,
   },
   {
     title: "WireGuard",
-    url: "#",
+    url: "interfaces",
     icon: ShieldUser,
   },
 ];
@@ -85,10 +86,10 @@ const ip_items = [
                 <CollapsibleTrigger v-if="item.title == 'IP'" asChild>
                 <div class="flex">
                     <SidebarMenuButton asChild>
-                        <a :href="item.url">
+                      <RouterLink :to="{ name: item.url }">
                         <component :is="item.icon" />
                         <span>{{item.title}}</span>
-                        </a>
+                      </RouterLink>
                         <ChevronDown class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" asChild/>
                     </SidebarMenuButton>
                 </div>
@@ -105,10 +106,10 @@ const ip_items = [
                     </SidebarMenuSub>
                 </CollapsibleContent>
                 <SidebarMenuButton v-if="item.title != 'IP'" asChild>
-                    <a :href="item.url">
+                    <RouterLink :to="{ name: item.url }">
                       <component :is="item.icon" />
                       <span>{{item.title}}</span>
-                    </a>
+                    </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </Collapsible>

@@ -23,7 +23,10 @@ import {
 } from '@/components/ui/form'
 import { h } from 'vue'
 import axios from 'axios'
-import Sidebar from './components/Sidebar.vue'
+import { RouterView } from 'vue-router'
+import AppSidebar from './components/AppSidebar.vue'
+import SidebarTrigger from './components/ui/sidebar/SidebarTrigger.vue'
+import { SidebarProvider } from './components/ui/sidebar'
 
 const onSubmit = async values => {
   console.log(values);
@@ -50,8 +53,14 @@ const onSubmit = async values => {
     });
   }
 }
+
 </script>
 
 <template>
-  <Sidebar/>
+<SidebarProvider>
+    <AppSidebar />
+    <main>
+      <RouterView />  <!-- or <slot /> -->
+    </main>
+  </SidebarProvider>
 </template>
