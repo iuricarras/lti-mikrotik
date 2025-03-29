@@ -89,8 +89,8 @@ const ip_items = [
                       <RouterLink :to="{ name: item.url }">
                         <component :is="item.icon" />
                         <span>{{item.title}}</span>
-                      </RouterLink>
                         <ChevronDown class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" asChild/>
+                      </RouterLink>
                     </SidebarMenuButton>
                 </div>
                 </CollapsibleTrigger>

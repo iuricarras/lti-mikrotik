@@ -57,10 +57,14 @@ const onSubmit = async values => {
 </script>
 
 <template>
-<SidebarProvider>
-    <AppSidebar />
-    <main>
+<div class="mx-auto md:ml-64 ">
+  <main>
       <RouterView />  <!-- or <slot /> -->
     </main>
+</div>
+<div class="">
+  <SidebarProvider>
+    <AppSidebar />
   </SidebarProvider>
+</div>
 </template>

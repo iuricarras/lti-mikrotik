@@ -41,27 +41,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-8 mx-auto max-w-3xl">
-    <h1 class="text-xl pb-8">Interfaces</h1>
-    <nav class="flex space-x-1 border-b-2 border-gray-800 text-base">
+  <div class="pl-12 pt-12 pr-10 w-full h-screen ">
+    <h1 class="text-4xl mb-12">Interfaces</h1>
+    <div class="flex space-x-3 border-none text-base">
       <button
-        class=" h-10 leading-10 text-center rounded-t-xl border-none text-white select-none bg-gray-400 cursor-pointer hover:bg-gray-500"
+        class=" h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
         :class="{ 'bg-gray-800 hover:bg-gray-800': !isWireless }" @click="getInterfaces()">
-        <div class="px-4">Interfaces</div>
+        <div class="px-4">Physical Interfaces</div>
       </button>
       <button
-        class="h-10 leading-10 text-center rounded-t-xl border-none text-white select-none bg-gray-400 cursor-pointer hover:bg-gray-500"
-        activeClass="bg-gray-800 hover:bg-gray-800" :class="{ 'bg-gray-800 hover:bg-gray-800': isWireless }"
+        class="h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
+        :class="{ 'bg-gray-800 hover:bg-gray-800': isWireless }"
         @click="getWirelessInterfaces()">
-
         <div class="px-4">Wireless Interfaces</div>
       </button>
-    </nav>
-    <InterfacesList />
-    <!--
-      Ver tabelas do shadcn-vue
-      https://www.shadcn-vue.com/docs/components/data-table
-    -->
-    <hr>
+    </div>
+    <div class="w-full mt-12">
+      <InterfacesList />
+    </div>
   </div>
 </template>
