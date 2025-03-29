@@ -22,7 +22,7 @@ const router = createRouter({
       path : '/interfaces',
       name : 'interfaces',
       component : Interfaces,
-    }
+    },
   ],
 })
 
