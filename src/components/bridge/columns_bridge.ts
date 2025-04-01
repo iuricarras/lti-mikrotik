@@ -14,12 +14,20 @@ export const ColumnsBridge: ColumnDef<Bridge>[] = [
         header: 'Name',
     },
     {
-        accessorKey: 'type',
-        header: 'Type',
+        accessorKey: 'protocol-mode',
+        header: 'Protocol Mode',
     },
     {
-        accessorKey: 'ip',
-        header: 'IP Address',
+        accessorKey: 'mac-address',
+        header: 'MAC Address',
+    },
+    {
+        accessorKey: 'running',
+        header: 'Running',
+    },
+    {
+        accessorKey: 'disabled',
+        header: 'Disabled',
     },
     {
         id: 'actions',
