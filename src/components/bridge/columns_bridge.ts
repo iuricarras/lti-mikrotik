@@ -2,13 +2,13 @@ import type { ColumnDef } from '@tanstack/vue-table'
 import Dropdown from '@/components/tables/DropdownTable.vue';
 import { h } from 'vue'
 
-interface Interface{
+interface Bridge{
     name: string
     ip: string
     bridge: string
 }
 
-export const ColumnsBridge: ColumnDef<Interface>[] = [
+export const ColumnsBridge: ColumnDef<Bridge>[] = [
     {
         accessorKey: 'name',
         header: 'Name',
