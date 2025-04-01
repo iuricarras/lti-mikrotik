@@ -3,7 +3,6 @@ import type { ColumnDef } from '@tanstack/vue-table'
 interface Interface{
     name: string
     ip: string
-    bridge: string
 }
 
 export const columns: ColumnDef<Interface>[] = [
