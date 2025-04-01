@@ -6,7 +6,7 @@ interface Interface{
     bridge: string
 }
 
-export const columns: ColumnDef<Interface>[] = [
+export const ColumnsWireless: ColumnDef<Interface>[] = [
     {
         accessorKey: 'name',
         header: 'Name',
