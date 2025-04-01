@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import InterfacesList from './InterfacesList.vue';
 import axios from 'axios';
+import Table from '../tables/Table.vue';
+
 
 let interfaces = ref([]);
 let isWireless = ref(false);
@@ -57,7 +58,7 @@ onMounted(() => {
       </button>
     </div>
     <div class="w-full mt-12">
-      <InterfacesList :data="interfaces"/>
+      <Table :data="interfaces" :columns="isWireless ? " />
     </div>
   </div>
 </template>
