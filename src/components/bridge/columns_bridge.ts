@@ -8,7 +8,7 @@ interface Interface{
     bridge: string
 }
 
-export const columns: ColumnDef<Interface>[] = [
+export const ColumnsBridge: ColumnDef<Interface>[] = [
     {
         accessorKey: 'name',
         header: 'Name',
