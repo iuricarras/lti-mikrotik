@@ -6,9 +6,17 @@ import { CircleX, Cross, MoreHorizontal, Pencil } from 'lucide-vue-next'
 function copy(id: string) {
   navigator.clipboard.writeText(id)
 }
+const props = defineProps<{
+  row_value: {
+    name: string
+  }
+}>()
+
+console.log(props.row_value.name)
 </script>
 
 <template>
+
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button variant="ghost" class="w-8 h-8 p-0">
