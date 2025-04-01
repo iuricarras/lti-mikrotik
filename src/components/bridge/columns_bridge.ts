@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/vue-table'
-import Dropdown from '@/components/tables/DropdownTable.vue';
+import Dropdown from '@/components/bridge/DropdownTable.vue';
 import { h } from 'vue'
 
 interface Bridge{
