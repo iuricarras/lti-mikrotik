@@ -1,11 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import InterfacesList from './BridgesList.vue';
+import Table from '@components/table/Table.vue';
+import { ColumnsBridge } from '@components/bridge/columns_bridge';
 import axios from 'axios';
 
-let interfaces = ref([]);
-let isWireless = ref(false);
-
+let bridges = ref([]);
 
 function getInterfaces() {
   console.log('Interfaces component mounted');
@@ -42,22 +41,9 @@ onMounted(() => {
 
 <template>
   <div class="pl-12 pt-12 pr-10 w-full h-screen ">
-    <h1 class="text-4xl mb-12">Interfaces</h1>
-    <div class="flex space-x-3 border-none text-base">
-      <button
-        class=" h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
-        :class="{ 'bg-gray-800 hover:bg-gray-800': !isWireless }" @click="getInterfaces()">
-        <div class="px-4">Physical Interfaces</div>
-      </button>
-      <button
-        class="h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
-        :class="{ 'bg-gray-800 hover:bg-gray-800': isWireless }"
-        @click="getWirelessInterfaces()">
-        <div class="px-4">Wireless Interfaces</div>
-      </button>
-    </div>
+    <h1 class="text-4xl mb-12">Bridges</h1>
     <div class="w-full mt-12">
-      <InterfacesList />
+      <Table :data="bridges" :columns="ColumnsBridge" />
     </div>
   </div>
 </template>
