@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { CircleX, Cross, MoreHorizontal, Pencil } from 'lucide-vue-next'
+import { CircleX, Cross, MoreHorizontal, Pencil, Info } from 'lucide-vue-next'
 
 function copy(id: string) {
   navigator.clipboard.writeText(id)
@@ -28,13 +28,19 @@ console.log(props.row_value.name)
       <DropdownMenuItem>
         <div class="flex">
           <component :is="CircleX" class="mr-2 h-5"/>
-          <span>Delete Interface</span>
+          <span>Delete Bridge</span>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem>
         <div class="flex">
           <component :is="Pencil" class="mr-2 h-5"/>
-          <span>Edit Interface</span>
+          <span>Edit Bridge</span>
+        </div>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <div class="flex">
+          <component :is="Info" class="mr-2 h-5"/>
+          <span>Show Bridge Ports</span>
         </div>
       </DropdownMenuItem>
     </DropdownMenuContent>
