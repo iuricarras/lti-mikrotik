@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import Table from '@components/table/Table.vue';
-import { ColumnsBridge } from '@components/bridge/columns_bridge';
+import Table from '../tables/Table.vue';
+import { ColumnsBridge } from '../bridge/columns_bridge';
 import axios from 'axios';
 
 let bridges = ref([]);
