@@ -1,7 +1,12 @@
 <script setup>
 import DataTable from '@/components/tables/DataTable.vue';
 import { columns } from '@/components/tables/columns_interface';
-var data = []
+const props = defineProps({
+    data: {
+        type: Array,
+        required: true
+    }
+});
 </script>
 
 <template>
