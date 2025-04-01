@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CircleX, Cross, MoreHorizontal, Pencil, Info } from 'lucide-vue-next'
+import  BridgePorts  from '@/components/bridge/BridgePorts.vue'
 
 function copy(id: string) {
   navigator.clipboard.writeText(id)
@@ -26,22 +27,19 @@ console.log(props.row_value.name)
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
       <DropdownMenuItem>
-        <div class="flex">
+        <div class="flex cursor-pointer">
           <component :is="CircleX" class="mr-2 h-5"/>
           <span>Delete Bridge</span>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <div class="flex">
+        <div class="flex cursor-pointer">
           <component :is="Pencil" class="mr-2 h-5"/>
           <span>Edit Bridge</span>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <div class="flex">
-          <component :is="Info" class="mr-2 h-5"/>
-          <span>Show Bridge Ports</span>
-        </div>
+        <BridgePorts/>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

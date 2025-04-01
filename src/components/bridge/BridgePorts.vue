@@ -8,7 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
-
 import {
     Select,
     SelectContent,
@@ -18,33 +17,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-
-
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { useGameStore } from '@/stores/games'
 import { ref } from 'vue'
+import {Info } from 'lucide-vue-next'
 
-const emit = defineEmits(['createLobby'])
-const boardId = ref(1);
-const playerNumbers = ref(2);
-
-const create = () => {
-    emit('createLobby', {"boardId": boardId.value, "numberPlayers": playerNumbers.value})
-}
-
-const gameStore = useGameStore();
-
-gameStore.fetchBoards();
 
 </script>
 
 <template>
     <Dialog>
         <DialogTrigger as-child>
-            <Button>
-                Create Lobby
-            </Button>
+            <div class="flex cursor-pointer">
+                <component :is="Info" class="mr-2 h-5"/>
+                <span>Show Bridge Ports</span>
+            </div>
         </DialogTrigger>
         <DialogContent>
             <DialogHeader>
