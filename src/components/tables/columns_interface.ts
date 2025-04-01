@@ -18,7 +18,11 @@ export const columns: ColumnDef<Interface>[] = [
         header: 'Type',
     },
     {
-        accessorKey: 'ip',
-        header: 'IP Address',
+        accessorKey: 'mac-address',
+        header: 'MAC Address',
+    },
+    {
+        accessorKey: 'disabled',
+        header: 'Disabled',
     },
 ]

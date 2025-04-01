@@ -23,6 +23,11 @@ const router = createRouter({
       name : 'interfaces',
       component : Interfaces,
     },
+    {
+      path : '/bridges',
+      name : 'bridges',
+      component : Interfaces,
+    },
   ],
 })
 

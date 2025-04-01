@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import InterfacesList from './InterfacesList.vue';
+import InterfacesList from './BridgesList.vue';
 import axios from 'axios';
 
 let interfaces = ref([]);
@@ -47,7 +47,7 @@ onMounted(() => {
       <button
         class=" h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
         :class="{ 'bg-gray-800 hover:bg-gray-800': !isWireless }" @click="getInterfaces()">
-        <div class="px-4">All Interfaces</div>
+        <div class="px-4">Physical Interfaces</div>
       </button>
       <button
         class="h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
