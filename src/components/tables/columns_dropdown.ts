@@ -21,4 +21,14 @@ export const columns: ColumnDef<Interface>[] = [
         accessorKey: 'ip',
         header: 'IP Address',
     },
+    {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({ row }) => {
+            var row_value = row.original
+          return h('div', { class: 'relative' }, h(Dropdown, {
+            row_value,
+          }))
+        },
+      },
 ]
