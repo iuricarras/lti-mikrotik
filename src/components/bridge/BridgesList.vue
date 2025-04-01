@@ -1,6 +1,6 @@
 <script setup>
 import DataTable from '@/components/tables/DataTable.vue';
-import { columns } from '@/components/tables/columns_interface';
+import { columns } from '@/components/interfaces/columns_interface';
 var data = [
     {
         name: 'eth0',

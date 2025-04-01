@@ -1,6 +1,4 @@
 import type { ColumnDef } from '@tanstack/vue-table'
-import Dropdown from '@/components/tables/DropdownTable.vue';
-import { h } from 'vue'
 
 interface Interface{
     name: string
