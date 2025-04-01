@@ -1,42 +1,24 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import InterfacesList from './BridgesList.vue';
 import axios from 'axios';
 
-let interfaces = ref([]);
-let isWireless = ref(false);
+let bridges = ref([]);
 
 
-function getInterfaces() {
+function getBridges() {
   console.log('Interfaces component mounted');
-  axios.get('http://localhost:5000/rest/interface')
+  axios.get('http://localhost:5000/rest/interface/bridge')
     .then(response => {
-      interfaces.value = response.data;
-      isWireless.value = false;
-      console.log('Fetched interfaces:', interfaces.value);
+      bridges.value = response.data;
+      console.log('Fetched Bridges:', bridges.value);
     })
     .catch(error => {
-      console.error('Error fetching interfaces:', error);
+      console.error('Error fetching bridges:', error);
     });
 }
-
-function getWirelessInterfaces() {
-  console.log('Wireless Interfaces component mounted');
-  axios.get('http://localhost:5000/rest/interface/wireless')
-    .then(response => {
-      interfaces.value = response.data;
-      isWireless.value = true;
-      console.log('Fetched wireless interfaces:', interfaces.value);
-    })
-    .catch(error => {
-      console.error('Error fetching wireless interfaces:', error);
-    });
-}
-
-
 
 onMounted(() => {
-  getInterfaces();
+  getBridges();
 });
 </script>
 

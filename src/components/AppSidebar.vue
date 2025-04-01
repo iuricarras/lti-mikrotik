@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Bridge",
-    url: "interfaces",
+    url: "bridges",
     icon: Workflow,
   },
   {
