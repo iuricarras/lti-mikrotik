@@ -1,23 +1,12 @@
 <script setup>
 import DataTable from '@/components/tables/DataTable.vue';
 import { columns } from '@/components/tables/columns';
-var data = [
-    {
-        name: 'eth0',
-        type: 'Ethernet',
-        ip: '192.168.10.1',
-    },
-    {
-        name: 'eth1',
-        type: 'Erhernet',
-        ip: '192.168.10.2',
-    },
-    {
-        name: 'lo',
-        type: 'Loopback',
-        ip: '192.168.10.3',
-    },
-]
+const props = defineProps({
+    data: {
+        type: Array,
+        required: true
+    }
+});
 </script>
 
 <template>

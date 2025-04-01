@@ -57,7 +57,7 @@ onMounted(() => {
       </button>
     </div>
     <div class="w-full mt-12">
-      <InterfacesList />
+      <InterfacesList :data="interfaces"/>
     </div>
   </div>
 </template>
