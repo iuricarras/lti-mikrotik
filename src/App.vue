@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, provide, useTemplateRef } from 'vue'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -27,6 +27,8 @@ import { RouterView } from 'vue-router'
 import AppSidebar from './components/AppSidebar.vue'
 import SidebarTrigger from './components/ui/sidebar/SidebarTrigger.vue'
 import { SidebarProvider } from './components/ui/sidebar'
+import GlobalAlertDialog from '@/components/GlobalAlertDialog.vue';
+
 
 const onSubmit = async values => {
   console.log(values);
@@ -53,10 +55,14 @@ const onSubmit = async values => {
     });
   }
 }
+const alertDialog = useTemplateRef('alert-dialog');
+provide('alertDialog', alertDialog);
 
 </script>
 
 <template>
+<GlobalAlertDialog ref="alert-dialog"></GlobalAlertDialog>
+
 <div class="mx-auto md:ml-64 ">
   <main>
       <RouterView />  <!-- or <slot /> -->
