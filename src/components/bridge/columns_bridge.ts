@@ -4,8 +4,6 @@ import { h } from 'vue'
 
 interface Bridge{
     name: string
-    ip: string
-    bridge: string
 }
 
 export const ColumnsBridge: ColumnDef<Bridge>[] = [
