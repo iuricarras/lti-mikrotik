@@ -9,7 +9,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['closeDialog'])
-
 const openToast = inject('openToast')
 
 let bridge_name = ref('')

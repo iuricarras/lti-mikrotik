@@ -19,7 +19,6 @@ import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import BridgeForm from './BridgeForm.vue'
 
-const router = useRouter()
 
 var selectedDialog = ref(0)
 

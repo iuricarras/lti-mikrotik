@@ -3,8 +3,8 @@ import { onMounted, ref } from 'vue';
 import Table from '../tables/Table.vue';
 import { ColumnsBridge } from './columns_bridge';
 import axios from 'axios';
+import {provide} from 'vue'
 let bridges = ref([]);
-
 let isBridge = ref(true);
 
 function getBridges() {
@@ -40,7 +40,7 @@ onMounted(() => {
         <div class="px-4">Ports</div>
       </button>
     </div>
-    <div class="w-full mt-12">
+    <div  class="w-full mt-12">
       <Table :data="bridges" :columns="ColumnsBridge" />
     </div>
   </div>
