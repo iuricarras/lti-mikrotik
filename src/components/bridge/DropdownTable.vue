@@ -61,7 +61,9 @@ function deleteConfirmed() {
       console.error('Error deleting bridge:', error);
     });
 
-    router.push({ name: 'interfaces' })
+    router.push({ name: 'interfaces' }).then(() => {
+      router.push({ name: 'bridges' })
+    })
 }
 
 function deleteBridge() {
