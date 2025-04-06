@@ -4,20 +4,42 @@ import Table from '../tables/Table.vue';
 import { ColumnsBridge } from './columns_bridge';
 import axios from 'axios';
 import {provide} from 'vue'
+import BridgeForm from './BridgeForm.vue'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { CirclePlus } from 'lucide-vue-next';
 let bridges = ref([]);
 let isBridge = ref(true);
+let updateTable = ref(false);
+const isDialogOpen = ref(false)
+
+const closeDialog = () => {
+  isDialogOpen.value = false
+}
 
 function getBridges() {
+  updateTable.value = true;
   console.log('Interfaces component mounted');
   axios.get('http://localhost:5000/rest/interface/bridge')
     .then(response => {
       bridges.value = response.data;
       console.log('Fetched Bridges:', bridges.value);
+      updateTable.value = false;
     })
     .catch(error => {
+      updateTable.value = false;
       console.error('Error fetching bridges:', error);
     });
 }
+
+provide('getBridges', getBridges);
 
 onMounted(() => {
   getBridges();
@@ -39,9 +61,29 @@ onMounted(() => {
         @click="getWirelessInterfaces()">
         <div class="px-4">Ports</div>
       </button>
-    </div>
+      <div class="w-full h-10 flex justify-end">
+        <Dialog v-model:open="isDialogOpen">
+          <DialogTrigger>
+            <div class="flex cursor-pointer">
+              <component :is="CirclePlus" class="mr-2 h-5" />
+            </div>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create Briddge</DialogTitle>
+              <DialogDescription>
+                Configure a new bridge interface
+              </DialogDescription>
+            </DialogHeader>
+            <div>
+              <BridgeForm @close-dialog="closeDialog"/>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      </div>
     <div  class="w-full mt-12">
-      <Table :data="bridges" :columns="ColumnsBridge" />
+      <Table v-if="!updateTable" :data="bridges" :columns="ColumnsBridge" />
     </div>
   </div>
 </template>

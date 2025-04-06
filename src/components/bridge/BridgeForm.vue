@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue'
 import axios from 'axios';
+import { get } from '@vueuse/core';
 const props = defineProps({
   bridge: {
     type: Object,
@@ -10,7 +11,7 @@ const props = defineProps({
 
 const emit = defineEmits(['closeDialog'])
 const openToast = inject('openToast')
-
+const getBridges = inject('getBridges')
 let bridge_name = ref('')
 let bridge_arp = ref('')
 let bridge_id = ref('')
@@ -38,8 +39,10 @@ const insertBridge = async () => {
     const response = await axios.put('http://localhost:5000/rest/interface/bridge', {
       name: bridge_name.value,
       arp: bridge_arp.value
+    }).then(() => {
+      getBridges()
+      openToast('Bridge inserted', 'The bridge interface has been successfully created.', 'success')
     })
-    openToast('Bridge inserted', 'The bridge has been successfully created.', 'success')
   } catch (error) {
     openToast('Error inserting bridge:', error, 'destructive')
   }
@@ -50,8 +53,10 @@ const updateBridge = async () => {
     const response = await axios.patch('http://localhost:5000/rest/interface/bridge?id=' + bridge_id.value, {
       name: bridge_name.value,
       arp: bridge_arp.value
+    }).then(() => {
+      getBridges()
+    openToast('Bridge updated', 'The bridge interface has been successfully updated.', 'success')
     })
-    openToast('Bridge updated', 'The bridge has been successfully updated.', 'success')
   } catch (error) {
     openToast('Error updating bridge:', error, 'destructive')
   }
@@ -76,7 +81,6 @@ const submitForm = () => {
   } else {
     insertBridge()
   }
-
   emit('closeDialog')
 }
 

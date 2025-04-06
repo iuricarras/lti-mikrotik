@@ -12,11 +12,9 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CircleX, Cross, MoreHorizontal, Pencil, Info } from 'lucide-vue-next'
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import { ColumnsPorts } from './columns_ports'
 import Table from '@/components/tables/Table.vue'
-import { inject } from 'vue'
-import { useRouter } from 'vue-router'
 import BridgeForm from './BridgeForm.vue'
 
 
@@ -34,9 +32,13 @@ const closeDialog = () => {
   isDialogOpen.value = false
 }
 
+const openToast = inject('openToast')
+const getBridges = inject('getBridges')
+
 const props = defineProps<{
   row_value
 }>()
+
 const bridge = {
   name: props.row_value.name,
   arp: props.row_value.arp,
@@ -70,13 +72,13 @@ function deleteConfirmed() {
 
   axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
+      openToast('Bridge deleted', 'The brige interface has been successfully deleted.', 'success')
+      getBridges()
       console.log('Bridge deleted:', response.data);
     })
     .catch(error => {
       console.error('Error deleting bridge:', error);
     });
-
-    router.push({ name: 'interfaces' })
 }
 
 function deleteBridge() {
