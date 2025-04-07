@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Interfaces from '@/components/interfaces/Interfaces.vue'
 import Bridges from '@/components/bridge/Bridges.vue'
+import Login from '@/components/login/Login.vue'
+import { useAuthStore } from '@/components/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +31,28 @@ const router = createRouter({
       name : 'bridges',
       component : Bridges,
     },
+    {
+      path : "/login",
+      name : "login",
+      component : Login
+    }
   ],
+})
+
+let handlingFirstRoute = true
+
+router.beforeEach((to, from, next) => {
+  const storeAuth = useAuthStore()
+  if (handlingFirstRoute) {
+    handlingFirstRoute = false
+    storeAuth.restoreLogin()
+  }
+
+  if(to.name != 'login' && !storeAuth.ip){
+    next({ name: 'login' })
+    return
+  }
+  next()
 })
 
 export default router
