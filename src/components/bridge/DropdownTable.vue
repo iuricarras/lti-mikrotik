@@ -12,21 +12,39 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CircleX, Cross, MoreHorizontal, Pencil, Info } from 'lucide-vue-next'
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import { ColumnsPorts } from './columns_ports'
 import Table from '@/components/tables/Table.vue'
-import { inject } from 'vue'
-import { useRouter } from 'vue-router'
+import BridgeForm from './BridgeForm.vue'
 
-const router = useRouter()
 
+
+var selectedDialog = ref(0)
+
+const changeSelectedDialog = (value) => {
+  selectedDialog.value = value
+}
 
 var alertDialog = inject('alertDialog')
+
+const isDialogOpen = ref(false)
+
+const closeDialog = () => {
+  isDialogOpen.value = false
+}
+
+const openToast = inject('openToast')
+const getBridges = inject('getBridges')
 
 const props = defineProps<{
   row_value
 }>()
 
+const bridge = {
+  name: props.row_value.name,
+  arp: props.row_value.arp,
+  id: props.row_value['.id']
+}
 const ports = ref([])
 
 function getPorts() {
@@ -55,13 +73,15 @@ function deleteConfirmed() {
 
   axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
+      openToast('Bridge deleted', 'The brige interface has been successfully deleted.', 'success')
+      getBridges()
       console.log('Bridge deleted:', response.data);
     })
     .catch(error => {
       console.error('Error deleting bridge:', error);
     });
 
-    router.push({ name: 'interfaces' }).then(() => {
+      router.push({ name: 'interfaces' }).then(() => {
       router.push({ name: 'bridges' })
     })
 }
@@ -80,7 +100,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Dialog>
+  <Dialog v-model:open="isDialogOpen">
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
         <Button variant="ghost" class="w-8 h-8 p-0">
@@ -95,14 +115,15 @@ onMounted(() => {
             <span>Delete Bridge</span>
           </div>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <div class="flex cursor-pointer">
-            <component :is="Pencil" class="mr-2 h-5" />
-            <span>Edit Bridge</span>
-          </div>
+        <DropdownMenuItem @click="changeSelectedDialog(2)">
+          <DialogTrigger as-child>
+            <div class="flex cursor-pointer">
+              <component :is="Pencil" class="mr-2 h-5" />
+              <span>Edit Bridge</span>
+            </div>
+          </DialogTrigger>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-
+        <DropdownMenuItem @click="changeSelectedDialog(1)">
           <DialogTrigger as-child>
             <div class="flex cursor-pointer">
               <component :is="Info" class="mr-2 h-5" />
@@ -112,7 +133,7 @@ onMounted(() => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-    <DialogContent>
+    <DialogContent v-if="selectedDialog == 1">
       <DialogHeader>
         <DialogTitle>Ports List</DialogTitle>
         <DialogDescription>
@@ -121,6 +142,17 @@ onMounted(() => {
       </DialogHeader>
       <div>
         <Table :data="ports" :columns="ColumnsPorts" />
+      </div>
+    </DialogContent>
+    <DialogContent v-if="selectedDialog == 2">
+      <DialogHeader>
+        <DialogTitle>Edit Bridge</DialogTitle>
+        <DialogDescription>
+          Edit settings from {{ props.row_value.name }}
+        </DialogDescription>
+      </DialogHeader>
+      <div>
+        <BridgeForm @close-dialog="closeDialog" :bridge="bridge"/>
       </div>
     </DialogContent>
   </Dialog>

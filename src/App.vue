@@ -28,8 +28,10 @@ import AppSidebar from './components/AppSidebar.vue'
 import SidebarTrigger from './components/ui/sidebar/SidebarTrigger.vue'
 import { SidebarProvider } from './components/ui/sidebar'
 import GlobalAlertDialog from '@/components/GlobalAlertDialog.vue';
+import Toaster from '@/components/ui/toast/Toaster.vue'
+import { useToast } from '@/components/ui/toast/use-toast'
 
-
+const { toast } = useToast()
 const onSubmit = async values => {
   console.log(values);
   if (values.method === 'get') {
@@ -55,8 +57,19 @@ const onSubmit = async values => {
     });
   }
 }
+
 const alertDialog = useTemplateRef('alert-dialog');
 provide('alertDialog', alertDialog);
+
+const openToast = (title_received, description_received, variant_recieved) => {
+      toast({
+        title: title_received,
+        description: description_received,
+        variant: variant_recieved,
+      });
+    }
+  
+provide('openToast', openToast);
 
 </script>
 
@@ -68,9 +81,10 @@ provide('alertDialog', alertDialog);
       <RouterView />  <!-- or <slot /> -->
     </main>
 </div>
-<div class="">
+<div >
   <SidebarProvider>
     <AppSidebar />
   </SidebarProvider>
 </div>
+<Toaster/>
 </template>
