@@ -35,12 +35,12 @@ const items = [
   },
   {
     title: "Wireless",
-    url: "interfaces",
+    url: "wireless",
     icon: Wifi,
   },
   {
     title: "IP",
-    url: "interfaces",
+    url: "",
     icon: Binary,
   },
   {

@@ -51,39 +51,30 @@ function getPorts() {
   axios.get('http://localhost:5000/rest/interface/bridge/port?bridge=' + props.row_value.name)
     .then(response => {
       ports.value = response.data;
-      console.log('Fetched ports:', ports.value);
     })
-    .catch(error => {
-      console.error('Error fetching ports:', error);
-    });
 }
 
 function deleteConfirmed() {
-  if (props.row_value.name == "bridge1") { console.log("bridge1 is not deletable"); return }
+  if (props.row_value.name == "bridge1") { 
+    openToast('Error deleting bridge1', 'bridge1 is not deletable', 'destructive')
+    return }
 
   ports.value.forEach(element => {
     axios.delete('http://localhost:5000/rest/interface/bridge/port?id=' + element[".id"])
-      .then(response => {
-        console.log('Port deleted:', response.data);
-      })
       .catch(error => {
-        console.error('Error deleting port:', error);
-      });
+      openToast('Error deleting bridge', 'Error deasssociating ports', 'destructive')
+      return
+    });
   });
 
   axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
-      openToast('Bridge deleted', 'The brige interface has been successfully deleted.', 'success')
+      openToast('Bridge deleted', 'The bridge interface has been successfully deleted.', 'success')
       getBridges()
-      console.log('Bridge deleted:', response.data);
     })
     .catch(error => {
-      console.error('Error deleting bridge:', error);
+      openToast('Error deleting bridge', error.message, 'destructive')
     });
-
-      router.push({ name: 'interfaces' }).then(() => {
-      router.push({ name: 'bridges' })
-    })
 }
 
 function deleteBridge() {
@@ -108,21 +99,23 @@ onMounted(() => {
           <MoreHorizontal class="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem @click="deleteBridge()">
-          <div class="flex cursor-pointer">
-            <component :is="CircleX" class="mr-2 h-5" />
-            <span>Delete Bridge</span>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem @click="changeSelectedDialog(2)">
-          <DialogTrigger as-child>
+        <DropdownMenuContent align="end">
+      <div v-if="props.row_value.name != 'bridge1'">
+          <DropdownMenuItem @click="deleteBridge()">
             <div class="flex cursor-pointer">
-              <component :is="Pencil" class="mr-2 h-5" />
-              <span>Edit Bridge</span>
+              <component :is="CircleX" class="mr-2 h-5" />
+              <span>Delete Bridge</span>
             </div>
-          </DialogTrigger>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="changeSelectedDialog(2)">
+            <DialogTrigger as-child>
+              <div class="flex cursor-pointer">
+                <component :is="Pencil" class="mr-2 h-5" />
+                <span>Edit Bridge</span>
+              </div>
+            </DialogTrigger>
+          </DropdownMenuItem>
+      </div>
         <DropdownMenuItem @click="changeSelectedDialog(1)">
           <DialogTrigger as-child>
             <div class="flex cursor-pointer">

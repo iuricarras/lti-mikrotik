@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/vue-table'
-import Dropdown from '@/components/bridge/DropdownTable.vue';
+import Dropdown from '@/components/bridge/DropdownTablePorts.vue';
 import { h } from 'vue'
 
 interface Ports{
@@ -19,4 +19,14 @@ export const ColumnsAllPorts: ColumnDef<Ports>[] = [
         accessorKey: 'role',
         header: 'Role',
     },
+{
+        id: 'actions',
+        enableHiding: false,
+        cell: ({ row }) => {
+            var row_value = row.original
+            return h('div', { class: 'relative' }, h(Dropdown, {
+                row_value,
+            }))
+        },
+    } ,
 ]

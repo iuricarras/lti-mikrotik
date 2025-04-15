@@ -1,9 +1,13 @@
 import type { ColumnDef } from '@tanstack/vue-table'
 import Dropdown from '@/components/bridge/DropdownTable.vue';
+import Disabled from './Disabled.vue'
+import Running from './Running.vue';
 import { h } from 'vue'
 
 interface Bridge{
     name: string
+    disabled: string,
+    running: string,
 }
 
 export const ColumnsBridge: ColumnDef<Bridge>[] = [
@@ -20,12 +24,26 @@ export const ColumnsBridge: ColumnDef<Bridge>[] = [
         header: 'MAC Address',
     },
     {
-        accessorKey: 'running',
-        header: 'Running',
+            header: 'Running',
+            id: 'running',
+            enableHiding: false,
+            cell: ({ row }) => {
+                var row_value = row.original
+                return h('div', { class: 'relative' }, h(Running, {
+                status: row_value.running == 'true' ,
+                }))
+            },
     },
     {
-        accessorKey: 'disabled',
-        header: 'Disabled',
+            header: 'Disabled',
+            id: 'disabled',
+            enableHiding: false,
+            cell: ({ row }) => {
+                var row_value = row.original
+                return h('div', { class: 'relative' }, h(Disabled, {
+                status: row_value.disabled != 'true' ,
+                }))
+            },
     },
     {
         id: 'actions',
@@ -36,5 +54,5 @@ export const ColumnsBridge: ColumnDef<Bridge>[] = [
             row_value,
           }))
         },
-      },
+    },
 ]
