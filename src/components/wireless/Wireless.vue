@@ -37,7 +37,7 @@ function getWirelessInterfaces() {
       updateTable.value = false;
     })
     .catch(error => {
-      openToast('Error fetching wireless interfaces', error.message,'destructive');
+      openToast('Error fetching wireless interfaces', error.response.data.detail ? error.response.data.detail : error.statusText,'destructive');
     });
 }
 
@@ -50,7 +50,7 @@ function getSecurityProfiles() {
       updateTable.value = false;
     })
     .catch(error => {
-      openToast('Error fetching security profiles', error.message,'destructive');
+      openToast('Error fetching security profiles', error.response.data.detail ? error.response.data.detail : error.statusText,'destructive');
     });
 }
 

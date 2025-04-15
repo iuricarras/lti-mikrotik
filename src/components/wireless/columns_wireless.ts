@@ -1,6 +1,7 @@
 import type { ColumnDef } from '@tanstack/vue-table'
 import { h } from 'vue'
 import Disabled from './Disabled.vue'
+import Dropdown from '@/components/wireless/DropdownTableWireless.vue';
 
 interface Wireless{
     name: string
@@ -30,6 +31,14 @@ export const ColumnsWireless: ColumnDef<Wireless>[] = [
         header: 'Security Profile',
     },
     {
+        accessorKey: 'frequency',
+        header: 'Frequency',
+    },
+    {
+        accessorKey: 'band',
+        header: 'Band',
+    },
+    {
         accessorKey: 'channel-width',
         header: 'Channel Width',
     },
@@ -44,4 +53,14 @@ export const ColumnsWireless: ColumnDef<Wireless>[] = [
                     }))
                 },
     },
+        {
+                id: 'actions',
+                enableHiding: false,
+                cell: ({ row }) => {
+                    var row_value = row.original
+                  return h('div', { class: 'relative' }, h(Dropdown, {
+                    row_value,
+                  }))
+                },
+        },
 ]

@@ -33,11 +33,11 @@ const props = defineProps<{
 }>()
 
 const wlan = ref({
-  name: props.row_value.name,
   mode : props.row_value.mode,
   ssid: props.row_value.ssid,
   "security-profile": props.row_value["security-profile"],
-  "channel-width": props.row_value["channel-width"],
+  frequency: props.row_value.frequency,
+  band: props.row_value.band,
   id: props.row_value['.id']
 })
 
@@ -49,7 +49,7 @@ function enableConfirmed(){
       getWirelessInterfaces()
     })
     .catch(error => {
-      openToast('Error enabling wireless interface', error.message, 'destructive')
+      openToast('Error enabling wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
     });
 }
 
@@ -60,7 +60,7 @@ function disableConfirmed(){
       getWirelessInterfaces()
     })
     .catch(error => {
-      openToast('Error disabling wireless interface', error.message, 'destructive')
+      openToast('Error disabling wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
     });
 }
 
@@ -92,13 +92,13 @@ function enableWireless() {
         </Button>
       </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem @click="disableWireless()">
+          <DropdownMenuItem v-if="props.row_value.disabled === 'false'" @click="disableWireless()">
             <div class="flex cursor-pointer">
               <component :is="CircleOff" class="mr-2 h-5" />
               <span>Disable Wireless Interface</span>
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem @click="enableWireless()">
+          <DropdownMenuItem v-if="props.row_value.disabled === 'true'" @click="enableWireless()">
             <div class="flex cursor-pointer">
               <component :is="CircleCheck" class="mr-2 h-5" />
               <span>Enable Wireless Interface</span>

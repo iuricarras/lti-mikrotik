@@ -52,7 +52,7 @@ function deleteConfirmed() {
         getAllPorts()
       })
       .catch(error => {
-        openToast('Error removing port', error.message, 'destructive')
+        openToast('Error removing port', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
       });
 
 }

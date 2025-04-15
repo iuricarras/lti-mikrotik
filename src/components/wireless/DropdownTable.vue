@@ -49,7 +49,7 @@ function deleteConfirmed() {
       getSecurityProfiles()
     })
     .catch(error => {
-      openToast('Error deleting security profile', error.message, 'destructive')
+      openToast('Error deleting security profile', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
     });
 }
 

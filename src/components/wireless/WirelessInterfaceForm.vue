@@ -13,16 +13,39 @@ const emit = defineEmits(['closeDialog'])
 const openToast = inject('openToast')
 const getWirelessInterfaces = inject('getWirelessInterfaces')
 const SECURITY_PROFILES = ref([])
+const isLoaded = ref(false)
 
 const wlan = reactive({
-  name: props.row_value.name,
-  mode : props.row_value.mode,
-  ssid: props.row_value.ssid,
-  "security-profile": props.row_value["security-profile"],
-  "channel-width": props.row_value["channel-width"],
+  mode : props.wlan.mode,
+  ssid: props.wlan.ssid,
+  frequency: props.wlan.frequency,
+  band: props.wlan.band,
+  "security-profile": props.wlan["security-profile"],
 })
 
+function get5GFrequencies() {
+  if(wlan.band.startsWith('5')) {
+    for (let i = 5180; i <= 5700; i+= 5) {
+      if(i > 5260 && i < 5500) {
+        continue
+      }
+      FREQ_5G.push({
+        value: i,
+        text: i + " MHz"
+      })
+    }
+  }
+  isLoaded.value = true
+}
+const FREQ_5G = [    {
+      value: "auto",
+      text: "Auto"
+    }]
 const FREQ_2G = [
+    {
+      value: "auto",
+      text: "Auto"
+    },
     {
       value: "2412",
       text: "2412 MHz"
@@ -169,7 +192,7 @@ const updateWirelessInterface = async () => {
     openToast('Wireless interface updated', 'The wireless interface has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating wireless interface', error.message, 'destructive')
+    openToast('Error updating wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
   }
 }
 
@@ -184,36 +207,18 @@ const getSecurityProfiles = async () => {
      }
     })
   } catch (error) {
-    openToast('Error fetching security profiles', error.message, 'destructive')
+    openToast('Error fetching security profiles', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
     emit('closeDialog')
   }
 }
 
 const submitForm = () => {
   error_message_ssid.value = ''
-  error_message_wpa2.value = ''
-  have_error.value = false
 
-  if (wlan.name === '') {
-    error_message_ssid.value = 'Security profile name is required'
-    have_error.value = true
-  }
-
-  if (wlan['wpa2-pre-shared-key'].length < 8) {
-    error_message_wpa2.value = 'Security profile WPA2 key must be at least 8 characters long'
-    have_error.value = true
-  } else if (wlan['wpa2-pre-shared-key'].length > 64) {
-    error_message_wpa2.value = 'Security profile WPA2 key must be at most 64 characters long'
-    have_error.value = true
-  } else if (wlan['wpa2-pre-shared-key'].includes(' ')) {
-    error_message_wpa2.value = 'Security profile WPA2 key must not contain spaces'
-    have_error.value = true
-  }
-
-  if (have_error.value) {
+  if (wlan.ssid === '') {
+    error_message_ssid.value = 'The Wireless Network SSID is required'
     return
   }
-  
   updateWirelessInterface()  
 
   emit('closeDialog')
@@ -223,12 +228,13 @@ const submitForm = () => {
 
 onMounted(() => {
   getSecurityProfiles()
+  get5GFrequencies()
 })
 
 </script>
 
 <template>
-<div class="bg-white p-6 rounded-lg w-full">
+<div v-if="isLoaded" class="bg-white p-6 rounded-lg w-full">
     <form @submit.prevent="submitForm" class="space-y-4">
         <div class="mb-4">
             <label class="block text-gray-700">SSID</label>
@@ -240,13 +246,27 @@ onMounted(() => {
         <div class="mb-8">
             <label class="block text-gray-700">Mode</label>
             <select name="modes" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="wlan.mode">
-                <option v-if="wlan.band.startsWith()" v-for="option in MODES" :value="option.value">{{ option.text }}</option>
+                <option  v-for="option in MODES" :value="option.value">{{ option.text }}</option>
             </select>
         </div>
         <div class="mb-8">
             <label class="block text-gray-700">Band</label>
-            <select name="modes" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="wlan.mode">
-                <option v-for="option in MODES" :value="option.value">{{ option.text }}</option>
+            <select name="bands" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="wlan.band">
+                <option v-if="wlan.band.startsWith('2g')" v-for="option in BANDS_2G" :value="option.value">{{ option.text }}</option>
+                <option v-if="wlan.band.startsWith('5g')" v-for="option in BANDS_5G" :value="option.value">{{ option.text }}</option>
+            </select>
+        </div>
+        <div class="mb-8">
+            <label class="block text-gray-700">Frequency</label>
+            <select name="modes" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="wlan.frequency">
+                <option v-if="wlan.band.startsWith('2')" v-for="option in FREQ_2G" :value="option.value">{{ option.text }}</option>
+                <option v-if="wlan.band.startsWith('5')" v-for="option in FREQ_5G" :value="option.value">{{ option.text }}</option>
+            </select>
+        </div>
+        <div class="mb-8">
+            <label class="block text-gray-700">Security Profile</label>
+            <select name="modes" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="wlan['security-profile']">
+                <option v-for="option in SECURITY_PROFILES" :value="option.value">{{ option.text }}</option>
             </select>
         </div>
         <button type="submit" class="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-black">Confirm</button>

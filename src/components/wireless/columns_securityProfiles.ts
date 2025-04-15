@@ -28,5 +28,5 @@ export const ColumnsSecurityProfiles: ColumnDef<SecurityProfiles>[] = [
                 row_value,
               }))
             },
-        },
+    },
 ]
