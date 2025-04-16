@@ -16,19 +16,22 @@ import {
 import AddressesForm from './AddressesForm.vue';
 let addresses = ref([]);
 const isDialogOpen = ref(false)
-
+const isLoading = ref(false)
 const closeDialog = () => {
   isDialogOpen.value = false
 }
 const openToast = inject('openToast')
 
 function getAddresses() {
+  isLoading.value = true
   axios.get('http://localhost:5000/rest/ip/address')
     .then(response => {
       addresses.value = response.data;
+      isLoading.value = false
     })
     .catch(error => {
       openToast('Error fetching addresses', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      isLoading.value = false
     });
 }
 
@@ -40,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="pl-12 pt-12 pr-10 w-full h-screen ">
+  <div v-if="!isLoading" class="pl-12 pt-12 pr-10 w-full h-screen ">
     <h1 class="text-4xl mb-12">IP Addresses</h1>
     <div class="flex space-x-3 border-none text-base">
       <div class="w-full h-10 flex justify-end">
