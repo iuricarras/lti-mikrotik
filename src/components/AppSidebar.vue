@@ -53,15 +53,11 @@ const items = [
 const ip_items = [
   {
     title: "Routes",
-    url: "#"
+    url: "/ip/routes"
   },
   {
     title: "Addresses",
-    url: "#"
-  },
-  {
-    title: "Routes",
-    url: "#"
+    url: "/ip/addresses"
   },
   {
     title: "DHCP Server",

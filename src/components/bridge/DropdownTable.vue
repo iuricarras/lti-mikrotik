@@ -67,6 +67,23 @@ function deleteConfirmed() {
     });
   });
 
+  axios.get('http://localhost:5000/rest/ip/address')
+    .then(response => {
+      response.data.forEach(element => {
+        if (element.interface == props.row_value.name){
+          axios.delete('http://localhost:5000/rest/ip/address?id=' + element[".id"])
+          .catch(error => {
+          openToast('Error deleting bridge', 'Error deasssociating ip addresses', 'destructive')
+          return
+        });
+        }
+      });
+    })
+    .catch(error => {
+      openToast('Error deleting bridge', 'Error deasssociating ip addresses', 'destructive')
+      return
+    });
+
   axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
       openToast('Bridge deleted', 'The bridge interface has been successfully deleted.', 'success')

@@ -8,10 +8,8 @@ let interfaces = ref([]);
 const openToast = inject('openToast')
 
 function getInterfaces() {
-  console.log('Interfaces component mounted');
   axios.get('http://localhost:5000/rest/interface')
     .then(response => {
-      console.log('Fetched interfaces:', response.data);
       interfaces.value = response.data;
     })
     .catch(error => {
