@@ -7,6 +7,7 @@ import { useAuthStore } from '@/components/stores/auth'
 import Wireless from '@/components/wireless/Wireless.vue'
 import Routes from '@/components/ip/routes/Routes.vue'
 import Addresses from '@/components/ip/addresses/Addresses.vue'
+import DHCP from '@/components/ip/dhcp/DHCP.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,11 @@ const router = createRouter({
       path: '/ip/addresses',
       name: 'addresses',
       component: Addresses
+    },
+    {
+      path: '/ip/dhcp',
+      name: 'dhcp',
+      component: DHCP
     }
   ],
 })

@@ -84,6 +84,23 @@ function deleteConfirmed() {
       return
     });
 
+    axios.get('http://localhost:5000/rest/ip/dhcp-server')
+    .then(response => {
+      response.data.forEach(element => {
+        if (element.interface == props.row_value.name){
+          axios.delete('http://localhost:5000/rest/ip/dhcp-server?id=' + element[".id"])
+          .catch(error => {
+          openToast('Error deleting bridge', 'Error deasssociating DCHP servers', 'destructive')
+          return
+        });
+        }
+      });
+    })
+    .catch(error => {
+      openToast('Error deleting bridge', 'Error deasssociating DCHP servers', 'destructive')
+      return
+    });
+
   axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
       openToast('Bridge deleted', 'The bridge interface has been successfully deleted.', 'success')

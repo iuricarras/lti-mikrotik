@@ -60,8 +60,8 @@ const ip_items = [
     url: "/ip/addresses"
   },
   {
-    title: "DHCP Server",
-    url: "#"
+    title: "DHCP",
+    url: "/ip/dhcp"
   },
   {
     title: "DNS Server",

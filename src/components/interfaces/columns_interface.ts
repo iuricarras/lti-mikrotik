@@ -21,7 +21,7 @@ export const ColumnsInterface: ColumnDef<Interface>[] = [
         header: 'MAC Address',
     },
     {
-        header: 'Disabled',
+        header: 'Status',
         id: 'disabled',
         enableHiding: false,
         cell: ({ row }) => {

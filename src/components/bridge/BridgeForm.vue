@@ -109,7 +109,7 @@ const submitForm = () => {
         <div class="mb-8">
             <label class="block text-gray-700">ARP Type</label>
             <select name="options" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="bridge_arp">
-                <option value="" disabled :selected="bridge_name == ''">Select a ARP Type</option>
+                <option value="" disabled :selected="bridge_name == ''">Select an ARP Type</option>
                 <option v-for="option in ARP_OPTIONS" :value="option.value">{{ option.text }}</option>
             </select>
             <div v-show="error_message_arp">

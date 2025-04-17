@@ -16,9 +16,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-let data = ref([]);
-let columnsType = ref([]);
-let isPorts = ref(false);
 import { CirclePlus } from 'lucide-vue-next';
 let bridges = ref([]);
 let ports = ref([]);
