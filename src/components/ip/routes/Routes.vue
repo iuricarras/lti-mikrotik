@@ -31,7 +31,7 @@ function getRoutes() {
       isLoading.value = false
     })
     .catch(error => {
-      openToast('Error fetching routes', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error fetching routes', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
       isLoading.value = false
     });
 }

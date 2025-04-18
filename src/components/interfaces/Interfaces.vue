@@ -13,7 +13,8 @@ function getInterfaces() {
       interfaces.value = response.data;
     })
     .catch(error => {
-      openToast('Error fetching interfaces', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      console.log(error);
+      openToast('Error fetching interfaces', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 

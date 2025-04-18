@@ -35,7 +35,7 @@ const insertSecurityProfile = async () => {
       openToast('Security Profile inserted', 'The security profile has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting the security profile', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting the security profile', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -46,7 +46,7 @@ const updateSecurityProfile = async () => {
     openToast('Security Profile updated', 'The security profile has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating security profile', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating security profile', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

@@ -30,7 +30,7 @@ function getAddresses() {
       isLoading.value = false
     })
     .catch(error => {
-      openToast('Error fetching addresses', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error fetching addresses', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
       isLoading.value = false
     });
 }

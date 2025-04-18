@@ -107,7 +107,7 @@ function deleteConfirmed() {
       getBridges()
     })
     .catch(error => {
-      openToast('Error deleting bridge', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error deleting bridge', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 

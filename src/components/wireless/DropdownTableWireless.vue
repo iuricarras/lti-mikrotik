@@ -49,7 +49,7 @@ function enableConfirmed(){
       getWirelessInterfaces()
     })
     .catch(error => {
-      openToast('Error enabling wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error enabling wireless interface', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 
@@ -60,7 +60,7 @@ function disableConfirmed(){
       getWirelessInterfaces()
     })
     .catch(error => {
-      openToast('Error disabling wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error disabling wireless interface', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 

@@ -24,7 +24,7 @@ function getInterfaces() {
       })
     })
     .catch(error => {
-      openToast('Error fetching interfaces', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error fetching interfaces', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
       emit('closeDialog')
     });
 }
@@ -87,7 +87,7 @@ const insertAddress = async () => {
       openToast('Address inserted', 'The IP address has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting address', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting address', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -101,7 +101,7 @@ const updateAddress = async () => {
     openToast('Address updated', 'The IP address has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating address', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating address', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

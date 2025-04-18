@@ -58,7 +58,7 @@ const updateDNSServer = async () => {
       openToast('DNS server updated', 'The DNS server has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error updating DNS server', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating DNS server', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

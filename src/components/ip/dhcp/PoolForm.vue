@@ -71,7 +71,7 @@ const insertAddressesPool = async () => {
       openToast('Adrresses Pool inserted', 'The addresses pool has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting addresses pool', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting addresses pool', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -85,7 +85,7 @@ const updateAddressesPool = async () => {
       openToast('Adrresses Pool updated', 'The addresses pool has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error updating addresses pool', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating addresses pool', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

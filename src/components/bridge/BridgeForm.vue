@@ -44,7 +44,7 @@ const insertBridge = async () => {
       openToast('Bridge inserted', 'The bridge interface has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting bridge', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting bridge', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -63,7 +63,7 @@ const updateBridge = async () => {
     openToast('Bridge updated', 'The bridge interface has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating bridge', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating bridge', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

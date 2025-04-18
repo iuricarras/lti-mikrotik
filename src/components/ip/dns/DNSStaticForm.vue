@@ -34,7 +34,7 @@ const insertStaticDNS = async () => {
       openToast('DNS static entry inserted', 'The DNS static entry has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting DNS static entry', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting DNS static entry', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -45,7 +45,7 @@ const updateStaticDNS = async () => {
       openToast('DNS static entry updated', 'The DNS static entry has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating DNS static entry', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating DNS static entry', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

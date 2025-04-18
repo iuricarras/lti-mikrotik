@@ -43,7 +43,7 @@ function deleteConfirmed() {
       getAddresses()
     })
     .catch(error => {
-      openToast('Error deleting address', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error deleting address', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 

@@ -43,7 +43,7 @@ function deleteConfirmed() {
       getRoutes()
     })
     .catch(error => {
-      openToast('Error deleting route', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error deleting route', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
 

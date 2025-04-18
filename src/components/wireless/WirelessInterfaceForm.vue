@@ -192,7 +192,7 @@ const updateWirelessInterface = async () => {
     openToast('Wireless interface updated', 'The wireless interface has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating wireless interface', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating wireless interface', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -207,7 +207,7 @@ const getSecurityProfiles = async () => {
      }
     })
   } catch (error) {
-    openToast('Error fetching security profiles', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error fetching security profiles', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     emit('closeDialog')
   }
 }

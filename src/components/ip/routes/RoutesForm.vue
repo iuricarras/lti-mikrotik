@@ -73,7 +73,7 @@ const insertRoute = async () => {
       openToast('Route inserted', 'The IP route has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting route', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting route', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -87,7 +87,7 @@ const updateRoute = async () => {
     openToast('Route updated', 'The IP route has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating route', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating route', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 

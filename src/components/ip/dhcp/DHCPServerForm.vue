@@ -26,7 +26,7 @@ function getIPPools() {
       isLoaded.value = true
     })
     .catch(error => {
-      openToast('Error fetching addresses pools', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error fetching addresses pools', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
       emit('closeDialog')
     })
 }
@@ -41,7 +41,7 @@ function getInterfaces() {
       isLoaded.value = true
     })
     .catch(error => {
-      openToast('Error fetching interfaces', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+      openToast('Error fetching interfaces', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
       emit('closeDialog')
     })
 }
@@ -66,7 +66,7 @@ const insertDHCPServer = async () => {
       openToast('DHCP Server inserted', 'The DHCP server has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting DHCP server', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error inserting DHCP server', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
@@ -77,7 +77,7 @@ const updateDHCPServer = async () => {
     openToast('DHCP server updated', 'The DHCP server has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating DHCP server', error.response.data.detail ? error.response.data.detail : error.statusText, 'destructive')
+    openToast('Error updating DHCP server', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
