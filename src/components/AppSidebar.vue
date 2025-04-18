@@ -65,7 +65,7 @@ const ip_items = [
   },
   {
     title: "DNS Server",
-    url: "#"
+    url: "/ip/dns"
   },
 ]
 </script>
