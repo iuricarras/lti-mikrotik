@@ -1,40 +1,22 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import axios from 'axios';
 import Table from '../tables/Table.vue';
 import { ColumnsInterface } from './columns_interface';
-import { ColumnsWireless } from './columns_wireless';
-
 let interfaces = ref([]);
-let isWireless = ref(false);
 
+const openToast = inject('openToast')
 
 function getInterfaces() {
-  console.log('Interfaces component mounted');
   axios.get('http://localhost:5000/rest/interface')
     .then(response => {
       interfaces.value = response.data;
-      isWireless.value = false;
-      console.log('Fetched interfaces:', interfaces.value);
     })
     .catch(error => {
-      console.error('Error fetching interfaces:', error);
+      console.log(error);
+      openToast('Error fetching interfaces', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
 }
-
-function getWirelessInterfaces() {
-  console.log('Wireless Interfaces component mounted');
-  axios.get('http://localhost:5000/rest/interface/wireless')
-    .then(response => {
-      interfaces.value = response.data;
-      isWireless.value = true;
-      console.log('Fetched wireless interfaces:', interfaces.value);
-    })
-    .catch(error => {
-      console.error('Error fetching wireless interfaces:', error);
-    });
-}
-
 
 
 onMounted(() => {
@@ -45,21 +27,9 @@ onMounted(() => {
 <template>
   <div class="pl-12 pt-12 pr-10 w-full h-screen ">
     <h1 class="text-4xl mb-12">Interfaces</h1>
-    <div class="flex space-x-3 border-none text-base">
-      <button
-        class=" h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
-        :class="{ 'bg-gray-800 hover:bg-gray-800': !isWireless }" @click="getInterfaces()">
-        <div class="px-4">All Interfaces</div>
-      </button>
-      <button
-        class="h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
-        :class="{ 'bg-gray-800 hover:bg-gray-800': isWireless }"
-        @click="getWirelessInterfaces()">
-        <div class="px-4">Wireless Interfaces</div>
-      </button>
-    </div>
+  
     <div class="w-full mt-12">
-      <Table :data="interfaces" :columns="isWireless ? ColumnsWireless : ColumnsInterface" />
+      <Table :data="interfaces" :columns="ColumnsInterface" />
     </div>
   </div>
 </template>

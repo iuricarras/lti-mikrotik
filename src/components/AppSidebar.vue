@@ -39,12 +39,12 @@ const items = [
   },
   {
     title: "Wireless",
-    url: "interfaces",
+    url: "wireless",
     icon: Wifi,
   },
   {
     title: "IP",
-    url: "interfaces",
+    url: "",
     icon: Binary,
   },
   {
@@ -57,23 +57,19 @@ const items = [
 const ip_items = [
   {
     title: "Routes",
-    url: "#"
+    url: "/ip/routes"
   },
   {
     title: "Addresses",
-    url: "#"
+    url: "/ip/addresses"
   },
   {
-    title: "Routes",
-    url: "#"
-  },
-  {
-    title: "DHCP Server",
-    url: "#"
+    title: "DHCP",
+    url: "/ip/dhcp"
   },
   {
     title: "DNS Server",
-    url: "#"
+    url: "/ip/dns"
   },
 ]
 

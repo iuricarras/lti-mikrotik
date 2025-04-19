@@ -16,11 +16,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-let data = ref([]);
-let columnsType = ref([]);
-let isPorts = ref(false);
 import { CirclePlus } from 'lucide-vue-next';
 let bridges = ref([]);
+let ports = ref([]);
 let isBridge = ref(true);
 let updateTable = ref(false);
 const isDialogOpen = ref(false)
@@ -31,20 +29,61 @@ const closeDialog = () => {
 
 function getBridges() {
   updateTable.value = true;
-  console.log('Interfaces component mounted');
+  isBridge.value = true;
   axios.get('http://localhost:5000/rest/interface/bridge')
     .then(response => {
       bridges.value = response.data;
-      console.log('Fetched Bridges:', bridges.value);
       updateTable.value = false;
     })
     .catch(error => {
       updateTable.value = false;
-      console.error('Error fetching bridges:', error);
     });
 }
 
+function getAllPorts() {
+  ports.value = [];
+  updateTable.value = true;
+  let isInArray = false;
+  isBridge.value = false;
+  axios.get('http://localhost:5000/rest/interface/bridge/port')
+    .then(response => {
+      let bridgePorts = response.data;
+      axios.get('http://localhost:5000/rest/interface')
+        .then(response2 => {
+          let allPorts = response2.data;
+          allPorts.forEach(element => {
+            isInArray = false;
+            bridgePorts.forEach(port => {
+              if (element.name === port.interface) {
+                isInArray = true;
+                ports.value.push({
+                  interface: port.interface,
+                  role: port.role,
+                  bridge: port.bridge,
+                  id: port['.id'],
+                });
+              }
+            });
+            if (!isInArray && element.type !== 'bridge') {
+              ports.value.push({
+                interface: element.name,
+                role: 'none',
+                bridge: 'none',
+                id: 'none',
+              });
+            }
+          });
+          updateTable.value = false;
+        })
+    })
+    .catch(error => {
+      updateTable.value = false;
+    });
+}
+
+
 provide('getBridges', getBridges);
+provide('getAllPorts', getAllPorts);
 
 onMounted(() => {
   getBridges();
@@ -57,17 +96,17 @@ onMounted(() => {
     <div class="flex space-x-3 border-none text-base">
       <button
         class=" h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
-        :class="{ 'bg-gray-800 hover:bg-gray-800': isBridge }" @click="getInterfaces()">
+        :class="{ 'bg-gray-800 hover:bg-gray-800': isBridge }" @click="getBridges()">
         <div class="px-4">Bridges</div>
       </button>
       <button
         class="h-10  text-center rounded-lg border-none text-white select-none bg-gray-400 cursor-pointer transition hover:bg-gray-500"
         :class="{ 'bg-gray-800 hover:bg-gray-800': !isBridge }"
-        @click="getWirelessInterfaces()">
+        @click="getAllPorts()">
         <div class="px-4">Ports</div>
       </button>
       <div class="w-full h-10 flex justify-end">
-        <Dialog v-model:open="isDialogOpen">
+        <Dialog v-if="isBridge" v-model:open="isDialogOpen">
           <DialogTrigger>
             <div class="flex cursor-pointer">
               <component :is="CirclePlus" class="mr-2 h-5" />
@@ -75,7 +114,7 @@ onMounted(() => {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create Briddge</DialogTitle>
+              <DialogTitle>Create Bridge</DialogTitle>
               <DialogDescription>
                 Configure a new bridge interface
               </DialogDescription>
@@ -87,8 +126,11 @@ onMounted(() => {
         </Dialog>
       </div>
       </div>
-    <div  class="w-full mt-12">
+    <div v-if="isBridge" class="w-full mt-12">
       <Table v-if="!updateTable" :data="bridges" :columns="ColumnsBridge" />
+    </div>
+    <div  v-if="!isBridge" class="w-full mt-12">
+      <Table v-if="!updateTable" :data="ports" :columns="ColumnsAllPorts" />
     </div>
   </div>
 </template>

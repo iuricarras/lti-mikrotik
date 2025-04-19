@@ -24,7 +24,7 @@ const ARP_OPTIONS = [
   { value: 'replay-only', text: 'Replay Only' }
 ]
 
-
+let have_error = ref(false)
 const error_message_name = ref('')
 const error_message_arp = ref('')
 
@@ -44,11 +44,16 @@ const insertBridge = async () => {
       openToast('Bridge inserted', 'The bridge interface has been successfully created.', 'success')
     })
   } catch (error) {
-    openToast('Error inserting bridge:', error, 'destructive')
+    openToast('Error inserting bridge', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
 const updateBridge = async () => {
+
+  if (bridge_name.value == 'bridge1') {
+    openToast('Error updating bridge1', 'bridge1 is not updatable', 'destructive')
+    return
+  }
   try {
     const response = await axios.patch('http://localhost:5000/rest/interface/bridge?id=' + bridge_id.value, {
       name: bridge_name.value,
@@ -58,21 +63,26 @@ const updateBridge = async () => {
     openToast('Bridge updated', 'The bridge interface has been successfully updated.', 'success')
     })
   } catch (error) {
-    openToast('Error updating bridge:', error, 'destructive')
+    openToast('Error updating bridge', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
   }
 }
 
 const submitForm = () => {
   error_message_name.value = ''
   error_message_arp.value = ''
+  have_error.value = false
 
   if (bridge_name.value === '') {
     error_message_name.value = 'Bridge name is required'
-    return
+    have_error.value = true
   }
 
   if (bridge_arp.value === '') {
     error_message_arp.value = 'ARP type is required'
+    have_error.value = true
+  }
+
+  if(have_error.value) {
     return
   }
 
@@ -99,7 +109,7 @@ const submitForm = () => {
         <div class="mb-8">
             <label class="block text-gray-700">ARP Type</label>
             <select name="options" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600" v-model="bridge_arp">
-                <option value="" disabled :selected="bridge_name == ''">Select ARP Type</option>
+                <option value="" disabled :selected="bridge_name == ''">Select an ARP Type</option>
                 <option v-for="option in ARP_OPTIONS" :value="option.value">{{ option.text }}</option>
             </select>
             <div v-show="error_message_arp">
