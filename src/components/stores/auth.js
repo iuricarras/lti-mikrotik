@@ -7,6 +7,7 @@ export const useAuthStore = defineStore('auth', () => {
     const router = useRouter()
     const user = ref(null)
     const ip = ref(null)
+    const loginList = ref([])
 
     const login = async (credentials) => {
         try {
@@ -17,15 +18,19 @@ export const useAuthStore = defineStore('auth', () => {
             })
             user.value = credentials.username
             ip.value = credentials.ip
-            let lastLoginList = localStorage.getItem('lastlogin')
-            if (lastLoginList) {
+            let lastLoginList = localStorage.getItem('lastLoginList')
+            console.log("lastLoginList", lastLoginList)
+            if (lastLoginList)  {
                 lastLoginList = JSON.parse(lastLoginList)
+                console.log("lastLoginList", lastLoginList)
             } else {
                 lastLoginList = []
+                console.log("lastLoginList is empty")
             }
             for (let i = 0; i < lastLoginList.length; i++) {
                 if (lastLoginList[i].ip === credentials.ip && lastLoginList[i].username === credentials.username) {
                     lastLoginList.splice(i, 1)
+                    console.log("Removing duplicate login entry")
                     break
                 }
             }
@@ -35,6 +40,8 @@ export const useAuthStore = defineStore('auth', () => {
             }
 
             lastLoginList.push({ ip: ip.value, username: user.value })
+
+
 
             localStorage.setItem('lastLoginList', JSON.stringify(lastLoginList))
 
@@ -56,5 +63,44 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    return { ip, login, restoreLogin} 
+    const getLoginList = async () => {
+        await axios.get('http://localhost:5000/users').then((response) => {
+            const responseData = response.data
+            console.log("Response data:", responseData.users)
+            loginList.value = responseData.users
+        }).catch((error) => {
+            console.error("Error fetching login list:", error)
+        })
+    }
+    
+    const autoLogin = (selectedLogin) => {
+        axios.post('http://localhost:5000/autoLogin', {
+            ip: selectedLogin.ip 
+          }).then(() => {
+            user.value = selectedLogin.username
+            ip.value = selectedLogin.ip
+
+            sessionStorage.setItem("lastLogin", JSON.stringify({ ip: ip.value, username: user.value }))
+
+            router.push({ name: 'home' })
+          }).catch(error => {
+            console.error('Error during login:', error)
+          })
+    }
+
+
+    const logout = () => {
+        axios.get('http://localhost:5000/logout').then(() => {
+            console.log("Logout successful")
+        }).catch(error => {
+            console.error('Error during logout:', error)
+        })
+        user.value = null
+        ip.value = null
+        sessionStorage.removeItem("lastLogin")
+        router.push({ name: 'login' })
+    }
+
+
+    return { ip, user, login, restoreLogin, getLoginList, autoLogin, logout, loginList} 
 })

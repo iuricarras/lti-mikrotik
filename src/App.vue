@@ -30,6 +30,10 @@ import { SidebarProvider } from './components/ui/sidebar'
 import GlobalAlertDialog from '@/components/GlobalAlertDialog.vue';
 import Toaster from '@/components/ui/toast/Toaster.vue'
 import { useToast } from '@/components/ui/toast/use-toast'
+import { useAuthStore } from './components/stores/auth'
+
+
+const storeAuth = useAuthStore()
 
 const { toast } = useToast()
 const onSubmit = async values => {
@@ -76,13 +80,13 @@ provide('openToast', openToast);
 <template>
 <GlobalAlertDialog ref="alert-dialog"></GlobalAlertDialog>
 
-<div class="mx-auto md:ml-64 ">
+<div :class="{'mx-auto md:ml-64': storeAuth.ip}">
   <main>
       <RouterView />  <!-- or <slot /> -->
     </main>
 </div>
 <div >
-  <SidebarProvider>
+  <SidebarProvider v-if="storeAuth.ip">
     <AppSidebar />
   </SidebarProvider>
 </div>

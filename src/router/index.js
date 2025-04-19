@@ -4,6 +4,7 @@ import Interfaces from '@/components/interfaces/Interfaces.vue'
 import Bridges from '@/components/bridge/Bridges.vue'
 import Login from '@/components/login/Login.vue'
 import { useAuthStore } from '@/components/stores/auth'
+import Wireguard from '@/components/wireguard/Wireguard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
       path : "/login",
       name : "login",
       component : Login
+    },
+    {
+      path: '/wireguard',
+      name: 'wireguard',
+      component: Wireguard
     }
   ],
 })
