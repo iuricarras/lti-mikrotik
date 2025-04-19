@@ -78,17 +78,18 @@ provide('openToast', openToast);
 </script>
 
 <template>
-<GlobalAlertDialog ref="alert-dialog"></GlobalAlertDialog>
-
-<div :class="{'mx-auto md:ml-64': storeAuth.ip}">
-  <main>
-      <RouterView />  <!-- or <slot /> -->
-    </main>
-</div>
-<div >
-  <SidebarProvider v-if="storeAuth.ip">
-    <AppSidebar />
-  </SidebarProvider>
-</div>
-<Toaster/>
+  <div class="h-screen overflow-hidden">
+      <GlobalAlertDialog ref="alert-dialog"></GlobalAlertDialog>
+      <div :class="{'mx-auto md:ml-64': storeAuth.ip}">
+        <main>
+            <RouterView />  <!-- or <slot /> -->
+          </main>
+      </div>
+      <div>
+        <SidebarProvider v-if="storeAuth.ip">
+          <AppSidebar />
+        </SidebarProvider>
+      </div>
+      <Toaster/>
+  </div>
 </template>
