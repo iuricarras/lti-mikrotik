@@ -2,7 +2,7 @@
 import { onMounted, ref, inject, provide } from 'vue';
 import axios from 'axios';
 import Table from '../../tables/Table.vue';
-import { ColumnsAddresses } from './columns_Addresses';
+import { ColumnsAddresses } from './columns_addresses';
 import { CirclePlus } from 'lucide-vue-next';
 import {
   Dialog,
