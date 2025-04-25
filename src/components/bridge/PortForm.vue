@@ -64,7 +64,7 @@ const submitForm = () => {
   error_message_bridge.value = ''
 
   if (port_bridge.value === '') {
-    error_message_arp.value = 'You must select a bridge to associate with this port'
+    error_message_bridge.value = 'You must select a bridge to associate with this port'
     return
   }
     insertPortToBridge()
