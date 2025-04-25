@@ -82,7 +82,7 @@ function deletePort() {
             <span>Remove Port from Bridge</span>
           </div>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem v-if="port.bridge == 'none'">
           <DialogTrigger as-child>
             <div class="flex cursor-pointer">
               <component :is="CirclePlus" class="mr-2 h-5" />
