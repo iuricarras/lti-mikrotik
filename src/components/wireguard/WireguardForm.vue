@@ -1,5 +1,5 @@
 <script setup>
-import { ref, inject, onMounted, computed } from 'vue'
+import { ref, inject, onMounted, computed, watch } from 'vue'
 import axios from 'axios';
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input'
 import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox'
@@ -13,6 +13,10 @@ const props = defineProps({
     peers: {
         type: Array,
         required: false
+    },
+    interfaces: {
+        type: Object,
+        required: false
     }
 })
 
@@ -21,7 +25,7 @@ const openToast = inject('openToast')
 const getPeers = inject('getPeers')
 let peer_name = ref('')
 let peer_addresses = ref([])
-let peer_allowed = ref([])
+let peer_interface = ref([])
 let peer_id = ref('')
 
 const open = ref(false)
@@ -29,23 +33,30 @@ const searchTerm = ref('')
 
 const error_message_name = ref('')
 const error_message_addresses = ref('')
-const error_message_allowed = ref('')
+const error_message_interface = ref('')
 
 peer_id.value = props.peer ? props.peer['.id'] : ''
 peer_name.value = props.peer ? props.peer.name : ''
 peer_addresses.value = props.peer ? props.peer['client-address'].split(',') : [] //Editar isto 
-peer_allowed.value = props.peer ? props.peer['allowed-address'].split(',') : ['::/0']//Editar isto
+peer_interface.value = props.peer ? props.peer['interface'] : '' //Editar isto
 
 const ips = []
 
 const insertPeer = async () => {
     try {
+        const ipEndpointFetch = await axios.get('http://localhost:5000/rest/ip/address')
+        const ipEndpoint = ipEndpointFetch.data.find(ip => ip.interface === "ether1");
+
+        const interfaceObject = props.interfaces.find(i => i.name === peer_interface.value);
+
         const response = await axios.put('http://localhost:5000/rest/interface/wireguard/peers', {
             name: peer_name.value,
             'client-address': peer_addresses.value.join(','),
-            'allowed-address': peer_allowed.value.join(','),
+            'allowed-address': peer_addresses.value.join(','),
             'private-key': 'auto',
-            'interface': props.peers[0]['interface'],
+            'interface': peer_interface.value,
+            'client-endpoint': ipEndpoint.address.split('/')[0].trim(),
+            'client-listen-port': interfaceObject['listen-port'],
         }).then(() => {
             getPeers()
             openToast('Peer created', 'The peer was created successfully', 'success')
@@ -57,10 +68,18 @@ const insertPeer = async () => {
 
 const updatePeer = async () => {
     try {
+        const ipEndpointFetch = await axios.get('http://localhost:5000/rest/ip/address')
+        const ipEndpoint = ipEndpointFetch.data.find(ip => ip.interface === "ether1");
+
+        const interfaceObject = props.interfaces.find(i => i.name === peer_interface.value);
+
         const response = await axios.patch('http://localhost:5000/rest/interface/wireguard/peers?id=' + peer_id.value, {
             name: peer_name.value,
             'client-address': peer_addresses.value.join(','),
-            'allowed-address': peer_allowed.value.join(','),
+            'allowed-address': peer_addresses.value.join(','),
+            'client-endpoint': ipEndpoint.address.split('/')[0].trim(),
+            'client-listen-port': interfaceObject['listen-port'],
+            'interface': peer_interface.value,
         }).then(() => {
             getPeers()
             openToast('Peer updated', 'The peer was updated successfully', 'success')
@@ -70,9 +89,11 @@ const updatePeer = async () => {
     }
 }
 
+
 const submitForm = () => {
     error_message_name.value = ''
     error_message_addresses.value = ''
+    error_message_interface.value = ''
 
     if (peer_name.value === '') {
         error_message_name.value = 'Peer name is required'
@@ -89,8 +110,8 @@ const submitForm = () => {
         }
     });
 
-    if (peer_allowed.value.length === 0) {
-        error_message_allowed.value = 'At least one address is required'
+    if (peer_interface.value === '') {
+        error_message_interface.value = 'Interface is required'
         return
     }
 
@@ -108,9 +129,14 @@ const filteredIps = computed(() => {
     return searchTerm.value ? options.filter(option => contains(option.label, searchTerm.value)).splice(0, 5) : options
 })
 
-onMounted(() => {
-    for (let i = 2; i < 255; i++) {
-        const ipToCheck = '10.100.0.' + i;
+const calculateIps = (address, network) => {
+    ips.length = 0; // Clear the existing IPs
+    const networkSplit = network.split('.').slice(0,3).join('.')
+    for (let i = 1; i < 255; i++) {
+        const ipToCheck = networkSplit + "." + i;
+        if (ipToCheck === address.split('/')[0].trim()) {
+            continue; // Skip the current address
+        }
         let exists = false;
 
         if (props.peers) {
@@ -128,7 +154,25 @@ onMounted(() => {
             ips.push({ label: ipToCheck, value: ipToCheck });
         }
     }
-})
+};
+
+watch(peer_interface, async (newValue, oldValue) => {
+    peer_addresses.value = []
+    if (newValue !== '') {
+        await axios.get('http://localhost:5000/rest/ip/address')
+            .then(response => {
+                const addresses = response.data;
+                addresses.forEach(address => {
+                    if (address.interface === newValue) {
+                        calculateIps(address.address, address.network);
+                    }
+                });
+            })
+    } else {
+        ips.length = 0; // Clear IPs if no interface is selected
+    }
+});
+
 
 </script>
 
@@ -145,8 +189,20 @@ onMounted(() => {
                 </div>
             </div>
             <div class="mb-8">
+                <label class="block text-gray-700">Interface</label>
+                <select v-model="peer_interface" class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
+                    <option value="">Select Interface</option>
+                    <option v-for="interfaceObject in props.interfaces" :key="interfaceObject['.id']" :value="interfaceObject.name">
+                        {{ interfaceObject.name }}
+                    </option>
+                </select>
+                <div>
+                    <p class="text-sm text-red-700 mt-4">{{ error_message_interface }} </p>
+                </div>
+            </div>
+            <div class="mb-8">
                 <label class="block text-gray-700">Peer IP</label>
-                <Combobox v-model="peer_addresses" v-model:open="open" :ignore-filter="true">
+                <Combobox v-model="peer_addresses" v-model:open="open" :ignore-filter="true" :disabled="peer_interface === ''">
                     <ComboboxAnchor as-child>
                         <TagsInput v-model="peer_addresses"
                             class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
@@ -189,21 +245,7 @@ onMounted(() => {
                     <p class="text-sm text-red-700 mt-4">{{ error_message_addresses }} </p>
                 </div>
             </div>
-            <div class="mb-8">
-                <label class="block text-gray-700">Allowed IPs</label>
-                <TagsInput v-model="peer_allowed"
-                    class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
-                    <TagsInputItem v-for="item in peer_allowed" :key="item" :value="item">
-                        <TagsInputItemText />
-                        <TagsInputItemDelete />
-                    </TagsInputItem>
-
-                    <TagsInputInput placeholder="IPs Addresses" />
-                </TagsInput>
-                <div v-show="error_message_allowed">
-                    <p class="text-sm text-red-700 mt-4">{{ error_message_allowed }} </p>
-                </div>
-            </div>
+            
             <button type="submit" class="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-black">Confirm</button>
         </form>
     </div>
