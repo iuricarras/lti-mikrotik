@@ -20,7 +20,7 @@ import SecurityProfilesForm from './SecurityProfilesForm.vue'
 var alertDialog = inject('alertDialog')
 
 const isDialogOpen = ref(false)
-
+let found = false
 const closeDialog = () => {
   isDialogOpen.value = false
 }
@@ -43,14 +43,35 @@ const security_profile = ref({
 
 function deleteConfirmed() {
 
-  axios.delete('http://localhost:5000/rest/interface/wireless/security-profiles?id=' + security_profile.value.id)
+  axios.get('http://localhost:5000/rest/interface/wireless')
     .then(response => {
-      openToast('Security profile deleted', 'The security profile has been successfully deleted.', 'success')
-      getSecurityProfiles()
+      let interfaces = response.data;
+      found = false
+      interfaces.forEach(element => {
+        if (element["security-profile"] === security_profile.value.name) {
+          openToast('Error deleting security profile', 'You must remove the security profile from all wireless interfaces before deleting it', 'destructive')
+          found = true
+          return
+        }
+      })
+
+      if(!found){
+        axios.delete('http://localhost:5000/rest/interface/wireless/security-profiles?id=' + security_profile.value.id)
+        .then(response => {
+          openToast('Security profile deleted', 'The security profile has been successfully deleted.', 'success')
+          getSecurityProfiles()
+        })
+        .catch(error => {
+          openToast('Error deleting security profile', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
+        })
+      }
+
+
     })
     .catch(error => {
       openToast('Error deleting security profile', error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     });
+
 }
 
 function deleteSecurityProfile() {
@@ -73,7 +94,7 @@ function deleteSecurityProfile() {
         </Button>
       </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem @click="deleteSecurityProfile()">
+          <DropdownMenuItem @click="deleteSecurityProfile">
             <div class="flex cursor-pointer">
               <component :is="CircleX" class="mr-2 h-5" />
               <span>Delete Security Profile</span>
