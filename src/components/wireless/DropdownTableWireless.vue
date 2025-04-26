@@ -108,7 +108,7 @@ function enableWireless() {
             <DialogTrigger as-child>
               <div class="flex cursor-pointer">
                 <component :is="Pencil" class="mr-2 h-5" />
-                <span>Edit Security Profile</span>
+                <span>Edit Wireless Interface</span>
               </div>
             </DialogTrigger>
           </DropdownMenuItem>
