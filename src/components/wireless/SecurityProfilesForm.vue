@@ -30,7 +30,7 @@ const have_error = ref(false)
 
 const insertSecurityProfile = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/interface/wireless/security-profiles', toRaw(security_profile)).then(() => {
+    const response = await axios.put('/rest/interface/wireless/security-profiles', toRaw(security_profile)).then(() => {
       getSecurityProfiles()
       openToast('Security Profile inserted', 'The security profile has been successfully created.', 'success')
     })
@@ -41,7 +41,7 @@ const insertSecurityProfile = async () => {
 
 const updateSecurityProfile = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/interface/wireless/security-profiles?id=' + props.security_profile.id, toRaw(security_profile)).then(() => {
+    const response = await axios.patch('/rest/interface/wireless/security-profiles?id=' + props.security_profile.id, toRaw(security_profile)).then(() => {
     getSecurityProfiles()
     openToast('Security Profile updated', 'The security profile has been successfully updated.', 'success')
     })

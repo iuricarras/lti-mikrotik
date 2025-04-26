@@ -37,7 +37,7 @@ const address = {
 }
 
 function deleteConfirmed() {
-  axios.delete('http://localhost:5000/rest/ip/address?id=' + props.row_value[".id"])
+  axios.delete('/rest/ip/address?id=' + props.row_value[".id"])
     .then(response => {
       openToast('Address deleted', 'The IP address has been successfully deleted.', 'success')
       getAddresses()

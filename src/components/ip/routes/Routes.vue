@@ -25,7 +25,7 @@ const openToast = inject('openToast')
 
 function getRoutes() {
   isLoading.value = true
-  axios.get('http://localhost:5000/rest/ip/route')
+  axios.get('/rest/ip/route')
     .then(response => {
       routes.value = response.data;
       isLoading.value = false

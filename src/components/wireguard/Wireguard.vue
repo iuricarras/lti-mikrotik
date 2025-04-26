@@ -44,7 +44,7 @@ const closeDialog = () => {
 
 const getInterfaces = async () => {
     // Fetch interfaces from the server
-    await axios.get('http://localhost:5000/rest/interface/wireguard')
+    await axios.get('/rest/interface/wireguard')
         .then(response => {
             interfaces.value = response.data;
             isInterface.value = true;
@@ -57,7 +57,7 @@ const getInterfaces = async () => {
 
 const getPeers = async () => {
     // Fetch peers from the server
-    await axios.get('http://localhost:5000/rest/interface/wireguard/peers')
+    await axios.get('/rest/interface/wireguard/peers')
         .then(response => {
             peers.value = response.data;
             peersExists.value = peers.value.length > 0;
@@ -71,7 +71,7 @@ const getPeers = async () => {
 
 const tooglePeer = (peerID, status) => {
     // Disable the peer
-    axios.patch('http://localhost:5000/rest/interface/wireguard/peers?id=' + peerID, {
+    axios.patch('/rest/interface/wireguard/peers?id=' + peerID, {
         "disabled": status == "true" ? "false" : "true"
     })
         .then(response => {
@@ -84,7 +84,7 @@ const tooglePeer = (peerID, status) => {
 };
 
 const downloadQRCode = (configID) => {
-    axios.post('http://localhost:5000/rest/interface/wireguard/peers/show-client-config', {
+    axios.post('/rest/interface/wireguard/peers/show-client-config', {
         ".id": configID
     })
         .then(response => {
@@ -99,7 +99,7 @@ const downloadQRCode = (configID) => {
 
 const downloadConfig = (configID) => {
     console.log(configID)
-    axios.post('http://localhost:5000/rest/interface/wireguard/peers/show-client-config', {
+    axios.post('/rest/interface/wireguard/peers/show-client-config', {
         ".id": configID
     })
         .then(response => {
@@ -114,7 +114,7 @@ const downloadConfig = (configID) => {
 };
 
 function deleteConfirmed() {
-    axios.delete('http://localhost:5000/rest/interface/wireguard/peers?id=' + peerIDDeleting)
+    axios.delete('/rest/interface/wireguard/peers?id=' + peerIDDeleting)
         .then(response => {
             console.log('Peer deleted:', response.data);
             getPeers(); // Refresh the list of peers

@@ -31,7 +31,7 @@ const closeDialog = () => {
 function getDNS() {
   updateTable.value = true;
   isExternal.value = true;
-  axios.get('http://localhost:5000/rest/ip/dns')
+  axios.get('/rest/ip/dns')
     .then(response => {
       console.log('response', response.data);
       dns.value = response.data;
@@ -46,7 +46,7 @@ function getDNS() {
 function getDNSStatic() {
   updateTable.value = true;
   isExternal.value = false;
-  axios.get('http://localhost:5000/rest/ip/dns/static')
+  axios.get('/rest/ip/dns/static')
     .then(response => {
       console.log('response', response.data);
       dns_static.value = response.data;
@@ -67,7 +67,7 @@ function changeRemoteStatus() {
     dns.value['allow-remote-requests'] = "true"
   }
 
-  axios.post('http://localhost:5000/rest/ip/dns/set', { 'allow-remote-requests': dns.value['allow-remote-requests'] })
+  axios.post('/rest/ip/dns/set', { 'allow-remote-requests': dns.value['allow-remote-requests'] })
     .then(response => {
       openToast('DNS remote requests status changed', 'The DNS remote requests status has been successfully altered.', 'success')
       getDNS()

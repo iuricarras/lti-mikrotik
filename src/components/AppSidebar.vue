@@ -57,19 +57,19 @@ const items = [
 const ip_items = [
   {
     title: "Routes",
-    url: "/ip/routes"
+    url: "routes"
   },
   {
     title: "Addresses",
-    url: "/ip/addresses"
+    url: "addresses"
   },
   {
     title: "DHCP",
-    url: "/ip/dhcp"
+    url: "dhcp"
   },
   {
     title: "DNS Server",
-    url: "/ip/dns"
+    url: "dns"
   },
 ]
 
@@ -104,9 +104,9 @@ const logout = () => {
                   <SidebarMenuSub>
                     <SidebarMenuSubItem v-for="item_ip in ip_items">
                       <SidebarMenuSubButton>
-                        <a :href="item_ip.url">
+                        <RouterLink :to="{ name: item_ip.url }">
                           <span>{{ item_ip.title }}</span>
-                        </a>
+                        </RouterLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   </SidebarMenuSub>

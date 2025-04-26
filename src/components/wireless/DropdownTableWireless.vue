@@ -43,7 +43,7 @@ const wlan = ref({
 
 
 function enableConfirmed(){
-  axios.post('http://localhost:5000/rest/interface/wireless/enable', {".id": wlan.value.id } )
+  axios.post('/rest/interface/wireless/enable', {".id": wlan.value.id } )
     .then(response => {
       openToast('Wireless interface enabled', 'The wireless interface has been successfully enabled.', 'success')
       getWirelessInterfaces()
@@ -54,7 +54,7 @@ function enableConfirmed(){
 }
 
 function disableConfirmed(){
-  axios.post('http://localhost:5000/rest/interface/wireless/disable', {".id": wlan.value.id } )
+  axios.post('/rest/interface/wireless/disable', {".id": wlan.value.id } )
     .then(response => {
       openToast('Wireless interface disabled', 'The wireless interface has been successfully disabled.', 'success')
       getWirelessInterfaces()

@@ -53,7 +53,7 @@ const updateDNSServer = async () => {
     dns.servers = din_2
   }
   try {
-    const response = await axios.post('http://localhost:5000/rest/ip/dns/set', dns).then(() => {
+    const response = await axios.post('/rest/ip/dns/set', dns).then(() => {
       getDNS()
       openToast('DNS server updated', 'The DNS server has been successfully created.', 'success')
     })

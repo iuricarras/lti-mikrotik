@@ -17,7 +17,7 @@ const openToast = inject('openToast')
 const getDHCPServers = inject('getDHCPServers')
 
 function getIPPools() {
-  axios.get('http://localhost:5000/rest/ip/pool')
+  axios.get('/rest/ip/pool')
     .then(response => {
       IP_POOLS_OPTIONS.value = response.data.map(pool => ({
         value: pool.name,
@@ -32,7 +32,7 @@ function getIPPools() {
 }
 
 function getInterfaces() {
-  axios.get('http://localhost:5000/rest/interface')
+  axios.get('/rest/interface')
     .then(response => {
       INTERFACES_OPTIONS.value = response.data.map(interfaceIP => ({
         value: interfaceIP.name,
@@ -61,7 +61,7 @@ const dhcp_server = reactive({
 
 const insertDHCPServer = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/ip/dhcp-server', dhcp_server).then(() => {
+    const response = await axios.put('/rest/ip/dhcp-server', dhcp_server).then(() => {
       getDHCPServers()
       openToast('DHCP Server inserted', 'The DHCP server has been successfully created.', 'success')
     })
@@ -72,7 +72,7 @@ const insertDHCPServer = async () => {
 
 const updateDHCPServer = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/ip/dhcp-server?id=' + props.dhcp_server['.id'], dhcp_server).then(() => {
+    const response = await axios.patch('/rest/ip/dhcp-server?id=' + props.dhcp_server['.id'], dhcp_server).then(() => {
     getDHCPServers()
     openToast('DHCP server updated', 'The DHCP server has been successfully updated.', 'success')
     })

@@ -48,7 +48,7 @@ const bridge = {
 const ports = ref([])
 
 function getPorts() {
-  axios.get('http://localhost:5000/rest/interface/bridge/port?bridge=' + props.row_value.name)
+  axios.get('/rest/interface/bridge/port?bridge=' + props.row_value.name)
     .then(response => {
       ports.value = response.data;
     })
@@ -60,18 +60,18 @@ function deleteConfirmed() {
     return }
 
   ports.value.forEach(element => {
-    axios.delete('http://localhost:5000/rest/interface/bridge/port?id=' + element[".id"])
+    axios.delete('/rest/interface/bridge/port?id=' + element[".id"])
       .catch(error => {
       openToast('Error deleting bridge', 'Error deasssociating ports', 'destructive')
       return
     });
   });
 
-  axios.get('http://localhost:5000/rest/ip/address')
+  axios.get('/rest/ip/address')
     .then(response => {
       response.data.forEach(element => {
         if (element.interface == props.row_value.name){
-          axios.delete('http://localhost:5000/rest/ip/address?id=' + element[".id"])
+          axios.delete('/rest/ip/address?id=' + element[".id"])
           .catch(error => {
           openToast('Error deleting bridge', 'Error deasssociating ip addresses', 'destructive')
           return
@@ -84,11 +84,11 @@ function deleteConfirmed() {
       return
     });
 
-    axios.get('http://localhost:5000/rest/ip/dhcp-server')
+    axios.get('/rest/ip/dhcp-server')
     .then(response => {
       response.data.forEach(element => {
         if (element.interface == props.row_value.name){
-          axios.delete('http://localhost:5000/rest/ip/dhcp-server?id=' + element[".id"])
+          axios.delete('/rest/ip/dhcp-server?id=' + element[".id"])
           .catch(error => {
           openToast('Error deleting bridge', 'Error deasssociating DCHP servers', 'destructive')
           return
@@ -101,7 +101,7 @@ function deleteConfirmed() {
       return
     });
 
-  axios.delete('http://localhost:5000/rest/interface/bridge?id=' + props.row_value[".id"])
+  axios.delete('/rest/interface/bridge?id=' + props.row_value[".id"])
     .then(response => {
       openToast('Bridge deleted', 'The bridge interface has been successfully deleted.', 'success')
       getBridges()

@@ -65,7 +65,7 @@ dst_mask.value = props.route ? '/' + props.route.dst_address.split('/')[1] : ''
 
 const insertRoute = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/ip/route', {
+    const response = await axios.put('/rest/ip/route', {
       "dst-address": route.dst_address + dst_mask.value,
       gateway: route.gateway
     }).then(() => {
@@ -79,7 +79,7 @@ const insertRoute = async () => {
 
 const updateRoute = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/ip/route?id=' + props.route['.id'], {
+    const response = await axios.patch('/rest/ip/route?id=' + props.route['.id'], {
       "dst-address": route.dst_address + dst_mask.value,
       gateway: route.gateway
     }).then(() => {

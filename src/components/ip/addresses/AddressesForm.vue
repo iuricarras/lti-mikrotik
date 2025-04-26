@@ -16,7 +16,7 @@ const openToast = inject('openToast')
 const getAddresses = inject('getAddresses')
 
 function getInterfaces() {
-  return axios.get('http://localhost:5000/rest/interface')
+  return axios.get('/rest/interface')
     .then(response => {
       INTERFACES_OPTIONS.value = response.data.map(interfaceIP => {
         return { value: interfaceIP.name, text: interfaceIP.name }
@@ -79,7 +79,7 @@ address_mask.value = props.address ? '/' + props.address.address.split('/')[1] :
 
 const insertAddress = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/ip/address', {
+    const response = await axios.put('/rest/ip/address', {
       address: address.address + address_mask.value,
       interface: address.interface
     }).then(() => {
@@ -93,7 +93,7 @@ const insertAddress = async () => {
 
 const updateAddress = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/ip/address?id=' + props.address['.id'], {
+    const response = await axios.patch('/rest/ip/address?id=' + props.address['.id'], {
       address: address.address + address_mask.value,
       interface: address.interface
     }).then(() => {

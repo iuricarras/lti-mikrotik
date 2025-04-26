@@ -187,7 +187,7 @@ const have_error = ref(false)
 
 const updateWirelessInterface = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/interface/wireless?id=' + props.wlan.id, toRaw(wlan)).then(() => {
+    const response = await axios.patch('/rest/interface/wireless?id=' + props.wlan.id, toRaw(wlan)).then(() => {
     getWirelessInterfaces()
     openToast('Wireless interface updated', 'The wireless interface has been successfully updated.', 'success')
     })
@@ -198,7 +198,7 @@ const updateWirelessInterface = async () => {
 
 const getSecurityProfiles = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/rest/interface/wireless/security-profiles')
+    const response = await axios.get('/rest/interface/wireless/security-profiles')
     SECURITY_PROFILES.value = response.data
     SECURITY_PROFILES.value = SECURITY_PROFILES.value.map((profile) => {
      return{

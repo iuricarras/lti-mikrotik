@@ -31,7 +31,7 @@ const openToast = inject('openToast');
 function getWirelessInterfaces() {
   isWireless.value = true;
   updateTable.value = true;
-  axios.get('http://localhost:5000/rest/interface/wireless')
+  axios.get('/rest/interface/wireless')
     .then(response => {
       interfaces.value = response.data;
       updateTable.value = false;
@@ -44,7 +44,7 @@ function getWirelessInterfaces() {
 function getSecurityProfiles() {
   isWireless.value = false;
   updateTable.value = true;
-  axios.get('http://localhost:5000/rest/interface/wireless/security-profiles')
+  axios.get('/rest/interface/wireless/security-profiles')
     .then(response => {
       securityProfiles.value = response.data;
       updateTable.value = false;

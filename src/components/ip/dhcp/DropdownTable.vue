@@ -41,7 +41,7 @@ const dhcp_server = reactive({
 
 function deleteConfirmed() {
 
-  axios.delete('http://localhost:5000/rest/ip/dhcp-server?id=' + dhcp_server['.id'])
+  axios.delete('/rest/ip/dhcp-server?id=' + dhcp_server['.id'])
     .then(response => {
       openToast('DHCP server deleted', 'The DHCP server has been successfully deleted.', 'success')
       getDHCPServers()
