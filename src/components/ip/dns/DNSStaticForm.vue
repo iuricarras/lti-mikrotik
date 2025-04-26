@@ -29,7 +29,7 @@ function isValidIPv4(ip) {
 
 const insertStaticDNS = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/ip/dns/static', dns_static).then(() => {
+    const response = await axios.put('/rest/ip/dns/static', dns_static).then(() => {
       getDNSStatic()
       openToast('DNS static entry inserted', 'The DNS static entry has been successfully created.', 'success')
     })
@@ -40,7 +40,7 @@ const insertStaticDNS = async () => {
 
 const updateStaticDNS = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/ip/dns/static?id=' + props.dns_static['.id'] , dns_static).then(() => {
+    const response = await axios.patch('/rest/ip/dns/static?id=' + props.dns_static['.id'] , dns_static).then(() => {
       getDNSStatic()
       openToast('DNS static entry updated', 'The DNS static entry has been successfully updated.', 'success')
     })

@@ -32,7 +32,7 @@ const closeDialog = () => {
 function getDHCPServers() {
   updateTable.value = true;
   isDHCPServer.value = true;
-  axios.get('http://localhost:5000/rest/ip/dhcp-server')
+  axios.get('/rest/ip/dhcp-server')
     .then(response => {
       dhcp_servers.value = response.data;
       updateTable.value = false;
@@ -45,7 +45,7 @@ function getDHCPServers() {
 function getDHCPPools() {
   updateTable.value = true;
   isDHCPServer.value = false;
-  axios.get('http://localhost:5000/rest/ip/pool')
+  axios.get('/rest/ip/pool')
     .then(response => {
       ip_pools.value = response.data;
       updateTable.value = false;

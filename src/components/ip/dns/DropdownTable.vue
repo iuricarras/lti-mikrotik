@@ -45,7 +45,7 @@ function changeEntryStatus() {
     dns_static.disabled = "true"
   }
 
-  axios.patch('http://localhost:5000/rest/ip/dns/static?id=' + props.row_value['.id'], dns_static)
+  axios.patch('/rest/ip/dns/static?id=' + props.row_value['.id'], dns_static)
     .then(response => {
       openToast('DNS static entry status changed', 'The DNS static entry  status has been successfully altered.', 'success')
       getDNSStatic()

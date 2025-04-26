@@ -37,7 +37,7 @@ const route = {
 }
 
 function deleteConfirmed() {
-  axios.delete('http://localhost:5000/rest/ip/route?id=' + props.row_value[".id"])
+  axios.delete('/rest/ip/route?id=' + props.row_value[".id"])
     .then(response => {
       openToast('Route deleted', 'The IP route has been successfully deleted.', 'success')
       getRoutes()

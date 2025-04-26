@@ -44,12 +44,12 @@ const ips = []
 
 const insertPeer = async () => {
     try {
-        const ipEndpointFetch = await axios.get('http://localhost:5000/rest/ip/address')
+        const ipEndpointFetch = await axios.get('/rest/ip/address')
         const ipEndpoint = ipEndpointFetch.data.find(ip => ip.interface === "ether1");
 
         const interfaceObject = props.interfaces.find(i => i.name === peer_interface.value);
 
-        const response = await axios.put('http://localhost:5000/rest/interface/wireguard/peers', {
+        const response = await axios.put('/rest/interface/wireguard/peers', {
             name: peer_name.value,
             'client-address': peer_addresses.value.join(','),
             'allowed-address': peer_addresses.value.join(','),
@@ -68,12 +68,12 @@ const insertPeer = async () => {
 
 const updatePeer = async () => {
     try {
-        const ipEndpointFetch = await axios.get('http://localhost:5000/rest/ip/address')
+        const ipEndpointFetch = await axios.get('/rest/ip/address')
         const ipEndpoint = ipEndpointFetch.data.find(ip => ip.interface === "ether1");
 
         const interfaceObject = props.interfaces.find(i => i.name === peer_interface.value);
 
-        const response = await axios.patch('http://localhost:5000/rest/interface/wireguard/peers?id=' + peer_id.value, {
+        const response = await axios.patch('/rest/interface/wireguard/peers?id=' + peer_id.value, {
             name: peer_name.value,
             'client-address': peer_addresses.value.join(','),
             'allowed-address': peer_addresses.value.join(','),
@@ -159,7 +159,7 @@ const calculateIps = (address, network) => {
 watch(peer_interface, async (newValue, oldValue) => {
     peer_addresses.value = []
     if (newValue !== '') {
-        await axios.get('http://localhost:5000/rest/ip/address')
+        await axios.get('/rest/ip/address')
             .then(response => {
                 const addresses = response.data;
                 addresses.forEach(address => {

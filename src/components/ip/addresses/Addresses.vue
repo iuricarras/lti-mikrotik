@@ -24,7 +24,7 @@ const openToast = inject('openToast')
 
 function getAddresses() {
   isLoading.value = true
-  axios.get('http://localhost:5000/rest/ip/address')
+  axios.get('/rest/ip/address')
     .then(response => {
       addresses.value = response.data;
       isLoading.value = false

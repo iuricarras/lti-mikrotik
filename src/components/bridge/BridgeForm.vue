@@ -36,7 +36,7 @@ bridge_arp.value = props.bridge?.arp ? props.bridge.arp : ''
 
 const insertBridge = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/interface/bridge', {
+    const response = await axios.put('/rest/interface/bridge', {
       name: bridge_name.value,
       arp: bridge_arp.value
     }).then(() => {
@@ -55,7 +55,7 @@ const updateBridge = async () => {
     return
   }
   try {
-    const response = await axios.patch('http://localhost:5000/rest/interface/bridge?id=' + bridge_id.value, {
+    const response = await axios.patch('/rest/interface/bridge?id=' + bridge_id.value, {
       name: bridge_name.value,
       arp: bridge_arp.value
     }).then(() => {

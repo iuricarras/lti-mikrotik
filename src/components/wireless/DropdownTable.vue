@@ -43,7 +43,7 @@ const security_profile = ref({
 
 function deleteConfirmed() {
 
-  axios.get('http://localhost:5000/rest/interface/wireless')
+  axios.get('/rest/interface/wireless')
     .then(response => {
       let interfaces = response.data;
       found = false
@@ -56,7 +56,7 @@ function deleteConfirmed() {
       })
 
       if(!found){
-        axios.delete('http://localhost:5000/rest/interface/wireless/security-profiles?id=' + security_profile.value.id)
+        axios.delete('/rest/interface/wireless/security-profiles?id=' + security_profile.value.id)
         .then(response => {
           openToast('Security profile deleted', 'The security profile has been successfully deleted.', 'success')
           getSecurityProfiles()

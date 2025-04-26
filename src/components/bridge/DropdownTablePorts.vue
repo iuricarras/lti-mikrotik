@@ -46,7 +46,7 @@ function deleteConfirmed() {
       openToast('Error deleting port', 'Port' + port.interface + ' cannot be removed', 'destructive')
       return
     }
-    axios.delete('http://localhost:5000/rest/interface/bridge/port?id=' + port.id)
+    axios.delete('/rest/interface/bridge/port?id=' + port.id)
       .then(response => {
         openToast('Port deleted', 'The port has been successfully removed from the bridge.', 'success')
         getAllPorts()

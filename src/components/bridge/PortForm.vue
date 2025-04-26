@@ -17,7 +17,7 @@ let port_interface = ref('')
 let port_bridge = ref('')
 
 const getBridgesInfo = () =>{
-  axios.get('http://localhost:5000/rest/interface/bridge')
+  axios.get('/rest/interface/bridge')
     .then(response => {
       let bridges = response.data;
       bridges.forEach(element => {
@@ -48,7 +48,7 @@ const insertPortToBridge = async () => {
     return
   }
   try {
-    const response = await axios.put('http://localhost:5000/rest/interface/bridge/port', {
+    const response = await axios.put('/rest/interface/bridge/port', {
       interface: port_interface.value,
       bridge: port_bridge.value
     }).then(() => {

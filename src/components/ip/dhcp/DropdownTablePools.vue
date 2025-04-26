@@ -39,7 +39,7 @@ const ip_pool = reactive({
 
 function deleteConfirmed() {
 
-  axios.delete('http://localhost:5000/rest/ip/pool?id=' + ip_pool['.id'])
+  axios.delete('/rest/ip/pool?id=' + ip_pool['.id'])
     .then(response => {
       openToast('Addresses pool deleted', 'The addresses pool has been successfully deleted.', 'success')
       getDHCPPools()

@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const login = async (credentials) => {
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('/login', {
                 ip: credentials.ip,
                 username: credentials.username,
                 password: credentials.password
@@ -64,7 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const getLoginList = async () => {
-        await axios.get('http://localhost:5000/users').then((response) => {
+        await axios.get('/users').then((response) => {
             const responseData = response.data
             console.log("Response data:", responseData.users)
             loginList.value = responseData.users
@@ -74,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
     
     const autoLogin = (selectedLogin) => {
-        axios.post('http://localhost:5000/autoLogin', {
+        axios.post('/autoLogin', {
             ip: selectedLogin.ip 
           }).then(() => {
             user.value = selectedLogin.username
@@ -90,7 +90,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 
     const logout = () => {
-        axios.get('http://localhost:5000/logout').then(() => {
+        axios.get('/logout').then(() => {
             console.log("Logout successful")
         }).catch(error => {
             console.error('Error during logout:', error)

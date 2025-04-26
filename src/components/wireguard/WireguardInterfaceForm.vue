@@ -25,11 +25,11 @@ const error_message_ip = ref('')
 
 const insertInterface = async () => {
     try {
-        const response = await axios.put('http://localhost:5000/rest/interface/wireguard', {
+        const response = await axios.put('/rest/interface/wireguard', {
             name: interface_name.value,
             'listen-port': interface_listen.value
         }).then(async () => {
-            await axios.put('http://localhost:5000/rest/ip/address', {
+            await axios.put('/rest/ip/address', {
                 address: interface_ip.value + '/24',
                 interface: interface_name.value
             }).then(() => {

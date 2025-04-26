@@ -8,7 +8,7 @@ let interfaces = ref([]);
 const openToast = inject('openToast')
 
 function getInterfaces() {
-  axios.get('http://localhost:5000/rest/interface')
+  axios.get('/rest/interface')
     .then(response => {
       interfaces.value = response.data;
     })

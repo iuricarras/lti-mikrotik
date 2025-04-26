@@ -30,7 +30,7 @@ const closeDialog = () => {
 function getBridges() {
   updateTable.value = true;
   isBridge.value = true;
-  axios.get('http://localhost:5000/rest/interface/bridge')
+  axios.get('/rest/interface/bridge')
     .then(response => {
       bridges.value = response.data;
       updateTable.value = false;
@@ -45,10 +45,10 @@ function getAllPorts() {
   updateTable.value = true;
   let isInArray = false;
   isBridge.value = false;
-  axios.get('http://localhost:5000/rest/interface/bridge/port')
+  axios.get('/rest/interface/bridge/port')
     .then(response => {
       let bridgePorts = response.data;
-      axios.get('http://localhost:5000/rest/interface')
+      axios.get('/rest/interface')
         .then(response2 => {
           let allPorts = response2.data;
           allPorts.forEach(element => {

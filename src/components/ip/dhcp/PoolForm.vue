@@ -63,7 +63,7 @@ function isIPv4Greater(ip1, ip2) {
 
 const insertAddressesPool = async () => {
   try {
-    const response = await axios.put('http://localhost:5000/rest/ip/pool', {
+    const response = await axios.put('/rest/ip/pool', {
       name: ip_pool.name,
       ranges: ip_pool.from + '-' + ip_pool.to,
     }).then(() => {
@@ -77,7 +77,7 @@ const insertAddressesPool = async () => {
 
 const updateAddressesPool = async () => {
   try {
-    const response = await axios.patch('http://localhost:5000/rest/ip/pool?id=' + props.ip_pool['.id'] , {
+    const response = await axios.patch('/rest/ip/pool?id=' + props.ip_pool['.id'] , {
       name: ip_pool.name,
       ranges: ip_pool.from + '-' + ip_pool.to,
     }).then(() => {
