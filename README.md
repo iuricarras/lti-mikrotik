@@ -1,5 +1,7 @@
 # Mikrotik Controller on Vue.js
 
+> ⚠️ **Warning**: This project is an **academic project** and is intended for educational purposes only. It may not cover all edge cases or advanced Mikrotik configurations.
+
 This project is an **academic project** developed to manage Mikrotik routers using a Vue.js-based interface. It provides an intuitive and user-friendly way to interact with Mikrotik devices, allowing users to configure interfaces, manage peers, and monitor network settings.
 
 ## Main Functionalities
