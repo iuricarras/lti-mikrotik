@@ -54,12 +54,20 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    const restoreLogin = () => {
+    const restoreLogin = async () => {
         const lastLogin = sessionStorage.getItem("lastLogin")
         if (lastLogin) {
             const { ip: storedIp, username } = JSON.parse(lastLogin)
-            ip.value = storedIp
-            user.value = username
+            await axios.post('/autoLogin', {
+                ip: storedIp
+              }).then(() => {
+                ip.value = storedIp
+                user.value = username
+    
+              }).catch(error => {
+                console.error('Error during login:', error)
+              })
+
         }
     }
 

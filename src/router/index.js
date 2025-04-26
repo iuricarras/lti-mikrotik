@@ -77,11 +77,11 @@ const router = createRouter({
 
 let handlingFirstRoute = true
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const storeAuth = useAuthStore()
   if (handlingFirstRoute) {
     handlingFirstRoute = false
-    storeAuth.restoreLogin()
+    await storeAuth.restoreLogin()
   }
 
   if(to.name != 'login' && !storeAuth.ip){

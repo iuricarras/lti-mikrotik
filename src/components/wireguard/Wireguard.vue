@@ -106,7 +106,7 @@ const downloadConfig = (configID) => {
             console.log('Config response:', response.data);
             const responseData = response.data;
             const blob = new Blob([responseData[0].conf], { type: 'text/plain' });
-            saveAs(blob, `wireguard-config-${configID}.conf`);
+            saveAs(blob, `wireguard${configID}.conf`);
         })
         .catch(error => {
             console.error('Error downloading config:', error);
@@ -255,7 +255,7 @@ onMounted(async () => {
                                     <DialogTrigger asChild>
                                         <DropdownMenuItem @click="">Edit</DropdownMenuItem>
                                     </DialogTrigger>
-                                    <DropdownMenuItem @click="tooglePeer(peer['.id'], peer['disabled'])">Disable
+                                    <DropdownMenuItem @click="tooglePeer(peer['.id'], peer['disabled'])">{{ peer['disabled'] == 'true' ? 'Enable' : 'Disable' }}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem @click="deletePeer(peer['.id'])">Remove</DropdownMenuItem>
                                 </DropdownMenuContent>
