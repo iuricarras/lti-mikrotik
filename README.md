@@ -34,7 +34,7 @@ This project requires a Python backend to function properly. Make sure to set up
 1. Clone the Python backend repository:
    ```sh
    git clone https://github.com/iuricarras/lti-mikrotik-python.git
-   cd mikrotik-backend
+   cd lti-mikrotik-python
    ```
 
 2. Follow the instructions in the backend's `README.md` file to set it up and start the server.
